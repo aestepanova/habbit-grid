@@ -1,0 +1,16 @@
+* text=auto eol=lf
+# Нормализация концов строк для текстовых файлов
+*.js text
+*.vue text
+*.css text
+*.html text
+
+# Указание бинарных файлов
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+
+# Локализация поведения слияния для Vue single-file компонентов
+*.vue merge=union
+
