@@ -1,0 +1,51 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./fonts/Montserrat/static/Montserrat-Regular.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Основные оттенки */
+  --color-primary: #ff6600;     /* яркий апельсиновый */
+  --color-primary-dark: #d44d00;
+  --color-primary-light: #ffd7b5;
+
+  --color-secondary: #23272f;   /* тёмный графит */
+  --color-accent: #ffbc33;      /* жёлто-оранжевый акцент */
+
+  /* Фоновые цвета */
+  --color-bg: #f8f8fa;          /* светлый фон страницы */
+  --color-card: #ffffff;        /* фон карточек/контейнеров */
+  --color-card-alt: #ff852b;    /* акцентный оранжевый задник блока */
+  --color-card-secondary: #f3f4f8;
+
+  /* Текстовые */
+  --color-text-main: #23272f;
+  --color-text-white: #fff;
+  --color-text-accent: #ff6600;
+  --color-text-contrast: #111;
+  --color-muted: #787c84;
+
+  /* Обводки, тени */
+  --color-border: #ebebeb;
+  --color-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.08);
+  --color-shadow-card: 0 4px 24px 0 rgba(226, 107, 22, 0.12);
+
+  /* Ссылки/контролы */
+  --color-link: #ff6600;
+  --color-link-hover: #d44d00;
+  --color-btn-bg: #fff;
+  --color-btn-text: #23272f;
+  --color-btn-border: #fff;
+  --color-btn-bg-accent: #23272f;
+  --color-btn-text-accent: #fff;
+
+  /*  */
+}
+
+body {
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+

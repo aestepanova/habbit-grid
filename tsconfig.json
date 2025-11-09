@@ -2,13 +2,16 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
+    "baseUrl": ".",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@shared-types/*": ["packages/shared-types/src/*"],
+      "@shared-ui/*": ["packages/shared-ui/src/*"]
+    }
   },
-  "include": [
-    "apps/backend"
-  ]
+  "include": ["apps/**/*", "packages/**/*"]
 }

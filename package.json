@@ -1,10 +1,13 @@
 {
-  "name": "HabitGrid",
+  "name": "habit-grid",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "dev:frontend": "cd apps/frontend && npm run dev",
+    "dev:backend": "cd apps/backend && npm run dev",
+    "lint": "eslint . --config ./tools/eslint.config.js --ext .ts,.tsx,.js,.vue",
+    "build": "tsx build"
   },
   "workspaces": [
     "apps/*",
