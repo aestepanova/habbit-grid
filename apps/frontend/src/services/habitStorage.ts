@@ -29,11 +29,11 @@ const defaultStats: UserStats = {
 
 const defaultHabit: Habit = {
   id: "1",
-  name: "Test",
+  name: "Test habit",
   emoji: "⚙️",
   frequency: "daily",
-  completed: false,
-  streak: 17,
+  completed: true,
+  streak: 0,
   category: "Health",
   createdAt: new Date("2021-07-25"),
 };
@@ -42,9 +42,7 @@ class LocalStorageAdapter implements StorageAdapter {
   async getHabits(): Promise<Habit[]> {
     try {
       const data = localStorage.getItem(HABITS_KEY);
-      return data
-        ? JSON.parse(data)
-        : [defaultHabit, defaultHabit, defaultHabit];
+      return data ? JSON.parse(data) : [defaultHabit];
     } catch (error) {
       console.error("Ошибка при чтении привычек:", error);
       return [];
