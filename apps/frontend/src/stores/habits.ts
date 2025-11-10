@@ -28,15 +28,14 @@ export const useHabitsStore = defineStore("habits", {
   actions: {
     async loadHabits() {
       // Абстракция для перехода от localStorage к API
-      const data = await habitStorageService.getHabits();
-      this.habits = data;
+      this.habits = await habitStorageService.getHabits();
     },
 
     async toggleHabit(id: string) {
       const habit = this.habits.find((h) => h.id === id);
       if (habit) {
         habit.completed = !habit.completed;
-        await habitStorageService.saveHabits(this.habits);
+        await habitStorageService.saveHabit(habit);
       }
     },
   },
