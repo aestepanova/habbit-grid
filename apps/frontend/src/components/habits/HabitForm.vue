@@ -28,7 +28,7 @@
         maxlength="200"
         rows="3"
       ></textarea>
-      <span class="form-hint">{{ formData.description.length }}/200</span>
+      <span class="form-hint">{{ formData.description?.length }}/200</span>
     </div>
 
     <!-- Выбор цвета -->
@@ -106,7 +106,6 @@
 import { reactive, ref } from "vue";
 import BaseButton from "@/components/common/BaseButton.vue";
 import type { Habit } from "../../../../../packages/shared-types/habit.ts";
-import { useHabits } from "@/composables/useHabits.ts";
 
 interface Props {
   initialHabit?: Habit | null;
