@@ -40,7 +40,7 @@ import HabitCard from "@/components/habits/HabitCard.vue";
 import HabitForm from "@/components/habits/HabitForm.vue";
 import type { Habit } from "../../../../packages/shared-types/habit.ts";
 
-const { habits, loading, addHabit, deleteHabit } = useHabits();
+const { habits, loading, error, addHabit, deleteHabit } = useHabits();
 const isModalOpen = ref(false);
 
 const onAddHabit = (habitData: Habit) => {
