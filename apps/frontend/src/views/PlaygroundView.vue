@@ -1,6 +1,6 @@
 <template>
   <h1>Add buttons!</h1>
-  <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+  <div style="display: flex; gap: 16px; flex-wrap: wrap">
     <BaseButton label="Primary" variant="primary" />
     <BaseButton label="Secondary" variant="secondary" />
     <BaseButton label="Danger" variant="danger" />
@@ -27,11 +27,7 @@
     </BaseCard>
 
     <!-- Hover-эффект карточка -->
-    <BaseCard
-      title="Новая практика"
-      hoverable
-      padding-size="medium"
-    >
+    <BaseCard title="Новая практика" hoverable padding-size="medium">
       <p>Нажмите, чтобы добавить</p>
     </BaseCard>
 
@@ -39,14 +35,11 @@
     <BaseCard variant="subtle" flat>
       <span>Минималистичная информация</span>
     </BaseCard>
-
   </div>
 
   <h1>Test modals</h1>
   <div>
-    <BaseButton @click="isModalOpen = true">
-      + Новая практика
-    </BaseButton>
+    <BaseButton @click="isModalOpen = true"> + Новая практика </BaseButton>
     <!-- Простое модальное окно -->
     <BaseModal
       title="Добавить новую привычку"
@@ -55,67 +48,56 @@
     >
       <HabitForm @success="onAddHabit" />
     </BaseModal>
-
-    <!-- Модальное окно с footer -->
-    <BaseModal
-      title="Подтверждение"
-      :is-open="isConfirmOpen"
-      @close="isConfirmOpen = false"
-    >
-      <p>Вы уверены, что хотите удалить эту привычку?</p>
-      <template #footer>
-        <BaseButton
-          variant="secondary"
-          @click="isConfirmOpen = false"
-        >
-          Отмена
-        </BaseButton>
-        <BaseButton
-          variant="danger"
-          @click="confirmDelete"
-        >
-          Удалить
-        </BaseButton>
-      </template>
-    </BaseModal>
   </div>
 
-  <h1>Add habbit card</h1>
+  <h1>Add habit's card</h1>
   <div class="habit-list">
-<!--    <HabitCard
+    <HabitCard
       v-for="habit in habits"
       :key="habit.id"
       :habit="habit"
-      :completion-today="isCompletedToday(habit.id)"
-      :current-streak="getStreak(habit.id)"
-      :best-streak="getBestStreak(habit.id)"
-      :completion-count="getCompletionCount(habit.id)"
-      :logs="logs"
+      :completion-today="false"
+      :current-streak="4"
+      :best-streak="5"
+      :completion-count="23"
+      :logs="[]"
       @edit="onEdit"
       @delete="onDelete"
-    />-->
+    />
   </div>
 </template>
 
 <style scoped></style>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import BaseButton from '@/components/common/BaseButton.vue'
-import BaseModal from '@/components/common/BaseModal.vue'
-import HabitForm from '@/components/habits/HabitForm.vue'
-import HabitCard from '@/components/habits/HabitCard.vue'
+import { computed, ref } from "vue";
+import BaseCard from "@/components/common/BaseCard.vue";
+import BaseButton from "@/components/common/BaseButton.vue";
+import BaseModal from "@/components/common/BaseModal.vue";
+import HabitForm from "@/components/habits/HabitForm.vue";
+import HabitCard from "@/components/habits/HabitCard.vue";
+import type {
+  Habit,
+  HabitLog,
+} from "../../../../packages/shared-types/habit.ts";
+import { useHabits } from "@/composables/useHabits.ts";
 
-const isModalOpen = ref(false)
-const isConfirmOpen = ref(false)
+const isModalOpen = ref(false);
+const isConfirmOpen = ref(false);
 
-// const onAddHabit = (habit) => {
-//   // логика добавления
-//   isModalOpen.value = false
-// }
+const { habits, loading, addHabit, updateHabit, deleteHabit } = useHabits();
 
-const confirmDelete = () => {
-  // логика удаления
-  isConfirmOpen.value = false
-}
+const onAddHabit = (habit: Habit) => {
+  addHabit(habit);
+  isModalOpen.value = false;
+};
+
+const onEdit = (habit: Habit) => {
+  updateHabit(habit);
+  isModalOpen.value = false;
+};
+const onDelete = (habitId: string) => {
+  deleteHabit(habitId);
+  isConfirmOpen.value = false;
+};
 </script>

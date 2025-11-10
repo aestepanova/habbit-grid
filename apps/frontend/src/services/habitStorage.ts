@@ -8,8 +8,10 @@ interface StorageAdapter {
   getHabits(): Promise<Habit[]>;
   saveHabit(habit: Habit): Promise<void>;
   deleteHabit(habitId: string): Promise<void>;
-  getLogs(): HabitLog[];
-  saveLog(habitId: string, date: string, completed: boolean): void;
+  getLogs(): Promise<HabitLog[]>;
+  saveLog(habitId: string, date: string, completed: boolean): Promise<void>;
+  deleteHabitLogs(habitId: string): Promise<void>;
+  getHabitLogs(habitId: string): Promise<HabitLog[]>;
   getStats(): Promise<UserStats>;
 }
 
@@ -84,9 +86,10 @@ class LocalStorageAdapter implements StorageAdapter {
   clear(): void {
     localStorage.removeItem(HABITS_KEY);
     localStorage.removeItem(STATS_KEY);
+    localStorage.removeItem(LOGS_KEY);
   }
 
-  getLogs(): HabitLog[] {
+  async getLogs(): Promise<HabitLog[]> {
     try {
       const data = localStorage.getItem(LOGS_KEY);
       return data ? JSON.parse(data) : [];
@@ -96,9 +99,13 @@ class LocalStorageAdapter implements StorageAdapter {
     }
   }
 
-  saveLog(habitId: string, date: string, completed: boolean): void {
+  async saveLog(
+    habitId: string,
+    date: string,
+    completed: boolean,
+  ): Promise<void> {
     try {
-      const logs = this.getLogs();
+      const logs = await this.getLogs();
       const existingIndex = logs.findIndex(
         (l) => l.habitId === habitId && l.date === date,
       );
@@ -115,6 +122,21 @@ class LocalStorageAdapter implements StorageAdapter {
     } catch (error) {
       console.error("Ошибка при сохранении лога:", error);
     }
+  }
+
+  async deleteHabitLogs(habitId: string): Promise<void> {
+    try {
+      const logs = await this.getLogs();
+      const filtered = logs.filter((l) => l.habitId !== habitId);
+      localStorage.setItem(LOGS_KEY, JSON.stringify(filtered));
+    } catch (error) {
+      console.error("Ошибка при удалении логов:", error);
+    }
+  }
+
+  async getHabitLogs(habitId: string): Promise<HabitLog[]> {
+    const logs = await this.getLogs();
+    return logs.filter((l) => l.habitId === habitId);
   }
 }
 
@@ -141,11 +163,21 @@ class APIAdapter implements StorageAdapter {
     return Promise.resolve(undefined);
   }
 
-  getLogs(): HabitLog[] {
-    return [];
+  deleteHabitLogs(habitId: string): Promise<void> {
+    return Promise.resolve(undefined);
   }
 
-  saveLog(habitId: string, date: string, completed: boolean): void {}
+  async getHabitLogs(habitId: string): Promise<HabitLog[]> {
+    return Promise.resolve([]);
+  }
+
+  getLogs(): Promise<HabitLog[]> {
+    return Promise.resolve([]);
+  }
+
+  saveLog(habitId: string, date: string, completed: boolean): Promise<void> {
+    return Promise.resolve(undefined);
+  }
 }
 
 // Экспортируем текущий адаптер

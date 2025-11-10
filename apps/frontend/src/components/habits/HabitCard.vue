@@ -17,7 +17,10 @@
           </span>
         </div>
         <div class="habit-card__status">
-          <span v-if="completionToday" class="habit-card__badge habit-card__badge--done">
+          <span
+            v-if="completionToday"
+            class="habit-card__badge habit-card__badge--done"
+          >
             ✓
           </span>
           <span v-else class="habit-card__badge habit-card__badge--pending">
@@ -52,7 +55,10 @@
         <div
           v-for="day in 30"
           :key="day"
-          :class="['progress-day', { 'progress-day--done': isDayCompleted(day) }]"
+          :class="[
+            'progress-day',
+            { 'progress-day--done': isDayCompleted(day) },
+          ]"
         />
       </div>
     </div>
@@ -78,25 +84,20 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
-
-interface Habit {
-  id: string
-  name: string
-  description?: string
-  color: string
-  frequency: 'daily' | 'weekly' | 'monthly'
-  category?: string
-  createdAt: string
-}
+import { computed } from "vue";
+import type {
+  Habit,
+  HabitLog,
+  UserStats,
+} from "../../../../../packages/shared-types/habit.ts";
 
 interface Props {
-  habit: Habit
-  completionToday?: boolean
-  currentStreak?: number
-  bestStreak?: number
-  completionCount?: number
-  logs?: Array<{ date: string; completed: boolean }>
+  habit: Habit;
+  completionToday?: boolean;
+  currentStreak?: number;
+  bestStreak?: number;
+  completionCount?: number;
+  logs?: HabitLog[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -104,49 +105,51 @@ const props = withDefaults(defineProps<Props>(), {
   currentStreak: 0,
   bestStreak: 0,
   completionCount: 0,
-  logs: () => []
-})
+  logs: () => [],
+});
 
 const emit = defineEmits<{
-  edit: [habit: Habit]
-  delete: [habitId: string]
-  toggle: [habitId: string]
-}>()
+  edit: [habit: Habit];
+  delete: [habitId: string];
+  toggle: [habitId: string];
+}>();
 
-const isActive = computed(() => props.completionToday)
+const isActive = computed(() => props.completionToday);
 
 const categoryLabels: Record<string, string> = {
-  health: '🏃 Здоровье',
-  productivity: '⚡ Продуктивность',
-  learning: '📚 Обучение',
-  creativity: '🎨 Творчество',
-  personal: '🌱 Личное развитие'
-}
+  health: "🏃 Здоровье",
+  productivity: "⚡ Продуктивность",
+  learning: "📚 Обучение",
+  creativity: "🎨 Творчество",
+  personal: "🌱 Личное развитие",
+};
 
 const getCategoryLabel = (category: string | undefined): string => {
-  return category ? categoryLabels[category] || category : ''
-}
+  return category ? categoryLabels[category] || category : "";
+};
 
 const isDayCompleted = (day: number): boolean => {
   // Проверяем, выполнена ли привычка в день X последних 30 дней
-  if (!props.logs || props.logs.length === 0) return false
+  if (!props.logs || props.logs.length === 0) return false;
 
-  const targetDate = new Date()
-  targetDate.setDate(targetDate.getDate() - (30 - day))
-  const dateStr = targetDate.toISOString().split('T')[0]
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() - (30 - day));
+  const dateStr = targetDate.toISOString().split("T")[0];
 
-  return props.logs.some((log) => log.date === dateStr && log.completed)
-}
+  return props.logs.some((log) => log.date === dateStr && log.completed);
+};
 
 const handleEdit = () => {
-  emit('edit', props.habit)
-}
+  emit("edit", props.habit);
+};
 
 const handleDelete = () => {
-  if (confirm(`Вы уверены, что хотите удалить привычку "${props.habit.name}"?`)) {
-    emit('delete', props.habit.id)
+  if (
+    confirm(`Вы уверены, что хотите удалить привычку "${props.habit.name}"?`)
+  ) {
+    emit("delete", props.habit.id);
   }
-}
+};
 </script>
 
 <style scoped>

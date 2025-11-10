@@ -1,18 +1,63 @@
 <template>
-  <h1>Add buttons!</h1>
-  <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-    <BaseButton label="Primary" variant="primary" />
-    <BaseButton label="Secondary" variant="secondary" />
-    <BaseButton label="Danger" variant="danger" />
-    <BaseButton label="Success" variant="success" />
-    <BaseButton label="Ghost" variant="ghost" />
-    <BaseButton label="Loading" :loading="true" />
-    <BaseButton icon-only icon-left="★" />
+  <div class="dashboard-view">
+    <div v-if="loading">Загрузка...</div>
+    <div v-else-if="error" class="error">{{ error }}</div>
+    <div v-else>
+      <!-- Кнопка добавления -->
+      <BaseButton @click="isModalOpen = true"> + Новая привычка </BaseButton>
+
+      <!-- Список привычек -->
+      <div class="habits-container">
+        <HabitCard
+          v-for="habit in habits"
+          :key="habit.id"
+          :habit="habit"
+          :logs="getHabitLogs(habit.id)"
+          @edit="onEdit"
+          @delete="onDelete"
+        />
+      </div>
+
+      <!-- Модальное окно -->
+      <BaseModal
+        title="Добавить привычку"
+        :is-open="isModalOpen"
+        @close="isModalOpen = false"
+      >
+        <HabitForm @success="onAddHabit" />
+      </BaseModal>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
-
 <script setup lang="ts">
-import BaseButton from '@/components/common/BaseButton.vue'
+import { ref } from "vue";
+import { useHabits } from "@/composables/useHabits";
+import { habitStorageService as habitStorage } from "@/services/habitStorage";
+import BaseButton from "@/components/common/BaseButton.vue";
+import BaseModal from "@/components/common/BaseModal.vue";
+import HabitCard from "@/components/habits/HabitCard.vue";
+import HabitForm from "@/components/habits/HabitForm.vue";
+import type { Habit } from "../../../../packages/shared-types/habit.ts";
+
+const { habits, loading, addHabit, deleteHabit } = useHabits();
+const isModalOpen = ref(false);
+
+const onAddHabit = (habitData: Habit) => {
+  addHabit(habitData);
+  isModalOpen.value = false;
+};
+
+const onDelete = (habitId: string) => {
+  deleteHabit(habitId);
+};
+
+const onEdit = (habit: Habit) => {
+  // Логика редактирования
+  console.log("Редактировать:", habit);
+};
+
+const getHabitLogs = (habitId: string) => {
+  return habitStorage.getHabitLogs(habitId);
+};
 </script>

@@ -1,11 +1,15 @@
-import { computed, ref } from "vue";
-import type { Habit } from "../../../../packages/shared-types/habit.ts";
+import { computed, onMounted, ref } from "vue";
+import type {
+  Habit,
+  HabitLog,
+} from "../../../../packages/shared-types/habit.ts";
 import { habitStorageService as habitStorage } from "@/services/habitStorage";
 
 export function useHabits() {
   const habits = ref<Habit[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
+  const logs = ref<HabitLog[]>([]);
 
   const loadHabits = async () => {
     loading.value = true;
@@ -47,16 +51,19 @@ export function useHabits() {
   };
 
   // Отметить выполнение
-  const markHabit = (habitId: string, date: string = new Date().toString()) => {
-    habitStorage.saveLog(habitId, date, true);
-  };
-
-  // Отметить невыполнение
-  const unmarkHabit = (
+  const markHabit = async (
     habitId: string,
     date: string = new Date().toString(),
   ) => {
-    habitStorage.saveLog(habitId, date, false);
+    await habitStorage.saveLog(habitId, date, true);
+  };
+
+  // Отметить невыполнение
+  const unmarkHabit = async (
+    habitId: string,
+    date: string = new Date().toString(),
+  ) => {
+    await habitStorage.saveLog(habitId, date, false);
   };
 
   const dailyHabits = computed(() =>
@@ -69,36 +76,22 @@ export function useHabits() {
     return total > 0 ? (completed / total) * 100 : 0;
   });
 
-  async function fetchHabits() {
-    loading.value = true;
-    error.value = null;
-    try {
-      // Получаем данные из localStorage (строка JSON)
-      const storedData = localStorage.getItem("habits");
-
-      // Если данных нет, возвращаем пустой массив
-      if (storedData) {
-        habits.value = JSON.parse(storedData) as Habit[];
-      } else {
-        habits.value = [];
-      }
-
-      // Можно заменить на фетч к backend API
-      // const response = await fetch('/api/habits')
-      // habits.value = await response.json()
-    } catch (err) {
-      error.value = "Ошибка загрузки привычек";
-      console.error(err);
-    } finally {
-      loading.value = false;
-    }
-  }
+  onMounted(async () => {
+    await loadHabits();
+  });
 
   return {
     habits,
     dailyHabits,
     completionRate,
     loading,
-    fetchHabits,
+    error,
+    addHabit,
+    deleteHabit,
+    updateHabit,
+    markHabit,
+    unmarkHabit,
+    loadHabits,
+    onMounted,
   };
 }

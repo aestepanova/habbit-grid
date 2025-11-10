@@ -17,7 +17,9 @@
 
     <!-- Описание -->
     <div class="form-group">
-      <label for="habit-description" class="form-label">Описание (опционально)</label>
+      <label for="habit-description" class="form-label"
+        >Описание (опционально)</label
+      >
       <textarea
         id="habit-description"
         v-model="formData.description"
@@ -37,7 +39,10 @@
           v-for="color in colorOptions"
           :key="color"
           type="button"
-          :class="['color-option', { 'color-option--active': formData.color === color }]"
+          :class="[
+            'color-option',
+            { 'color-option--active': formData.color === color },
+          ]"
           :style="{ backgroundColor: color }"
           @click="formData.color = color"
           :title="color"
@@ -61,7 +66,9 @@
 
     <!-- Категория (опционально) -->
     <div class="form-group">
-      <label for="habit-category" class="form-label">Категория (опционально)</label>
+      <label for="habit-category" class="form-label"
+        >Категория (опционально)</label
+      >
       <select
         id="habit-category"
         v-model="formData.category"
@@ -96,96 +103,93 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import BaseButton from '@/components/common/BaseButton.vue'
-
-interface Habit {
-  id?: string
-  name: string
-  description: string
-  color: string
-  frequency: 'daily' | 'weekly' | 'monthly'
-  category?: string
-}
+import { reactive, ref } from "vue";
+import BaseButton from "@/components/common/BaseButton.vue";
+import type { Habit } from "../../../../../packages/shared-types/habit.ts";
+import { useHabits } from "@/composables/useHabits.ts";
 
 interface Props {
-  initialHabit?: Habit | null
+  initialHabit?: Habit | null;
 }
 
 interface FormErrors {
-  name?: string
+  name?: string;
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 const emit = defineEmits<{
-  success: [habit: Habit]
-  cancel: []
-}>()
+  success: [habit: Habit];
+  cancel: [];
+}>();
 
 const colorOptions = [
-  '#ff6600',
-  '#ff852b',
-  '#ffbc33',
-  '#10b981',
-  '#3b82f6',
-  '#8b5cf6',
-  '#ec4899',
-  '#6366f1'
-]
+  "#ff6600",
+  "#ff852b",
+  "#ffbc33",
+  "#10b981",
+  "#3b82f6",
+  "#8b5cf6",
+  "#ec4899",
+  "#6366f1",
+];
 
 const formData = reactive<Habit>({
-  name: props.initialHabit?.name || '',
-  description: props.initialHabit?.description || '',
+  createdAt: new Date(),
+  id: "",
+  name: props.initialHabit?.name || "",
+  description: props.initialHabit?.description || "",
   color: props.initialHabit?.color || colorOptions[0],
-  frequency: props.initialHabit?.frequency || 'daily',
-  category: props.initialHabit?.category || ''
-})
+  frequency: props.initialHabit?.frequency || "daily",
+  category: props.initialHabit?.category || "",
+  emoji: props.initialHabit?.emoji || "📌",
+  completed: false,
+  streak: 0,
+});
 
-const errors = ref<FormErrors>({})
-const isSubmitting = ref(false)
+const errors = ref<FormErrors>({});
+const isSubmitting = ref(false);
 
-const isEditing = !!props.initialHabit
+const isEditing = !!props.initialHabit;
 
 const validateForm = (): boolean => {
-  errors.value = {}
+  errors.value = {};
 
   if (!formData.name.trim()) {
-    errors.value.name = 'Название привычки обязательно'
-    return false
+    errors.value.name = "Название привычки обязательно";
+    return false;
   }
 
   if (formData.name.length < 2) {
-    errors.value.name = 'Название должно быть не менее 2 символов'
-    return false
+    errors.value.name = "Название должно быть не менее 2 символов";
+    return false;
   }
 
-  return true
-}
+  return true;
+};
 
 const handleSubmit = async () => {
-  if (!validateForm()) return
+  if (!validateForm()) return;
 
-  isSubmitting.value = true
+  isSubmitting.value = true;
 
   try {
-    // Имитация задержки сохранения
-    await new Promise((resolve) => setTimeout(resolve, 500))
-
-    // Генерируем ID если это новая привычка
+    // await addHabit({ ...formData });
+    //
+    // // Генерируем ID если это новая привычка
     if (!formData.id) {
-      formData.id = `habit_${Date.now()}`
+      formData.id = `habit_${Date.now()}`;
     }
 
-    emit('success', { ...formData })
+    emit("success", { ...formData });
   } finally {
-    isSubmitting.value = false
+    isSubmitting.value = false;
   }
-}
+};
 
 const handleCancel = () => {
-  emit('cancel')
-}
+  emit("cancel");
+};
 </script>
 
 <style scoped>
@@ -275,7 +279,9 @@ const handleCancel = () => {
 
   &--active {
     border-color: var(--color-text-main);
-    box-shadow: 0 0 0 2px var(--color-card), 0 0 0 4px var(--color-primary);
+    box-shadow:
+      0 0 0 2px var(--color-card),
+      0 0 0 4px var(--color-primary);
   }
 
   &:focus-visible {
