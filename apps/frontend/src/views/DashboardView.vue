@@ -57,7 +57,7 @@ const onEdit = (habit: Habit) => {
   console.log("Редактировать:", habit);
 };
 
-const getHabitLogs = (habitId: string) => {
-  return habitStorage.getHabitLogs(habitId);
+const getHabitLogs = async (habitId: string) => {
+  return await habitStorage.getHabitLogs(habitId);
 };
 </script>
