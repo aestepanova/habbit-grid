@@ -12,7 +12,7 @@
           v-for="habit in habits"
           :key="habit.id"
           :habit="habit"
-          :logs="await getHabitLogs(habit.id)"
+          :logs="getHabitLogs(habit.id)"
           @edit="onEdit"
           @delete="onDelete"
         />
@@ -60,9 +60,7 @@ const onEdit = (habit: Habit) => {
   console.log("Редактировать:", habit);
 };
 
-const getHabitLogs: (habitId: string) => Promise<HabitLog[]> = async (
-  habitId: string,
-) => {
-  return await habitStorage.getHabitLogs(habitId);
+const getHabitLogs: (habitId: string) => HabitLog[] = (habitId: string) => {
+  return habitStorage.getHabitLogs(habitId);
 };
 </script>

@@ -8,10 +8,10 @@ interface StorageAdapter {
   getHabits(): Promise<Habit[]>;
   saveHabit(habit: Habit): Promise<void>;
   deleteHabit(habitId: string): Promise<void>;
-  getLogs(): Promise<HabitLog[]>;
+  getLogs(): HabitLog[];
   saveLog(habitId: string, date: string, completed: boolean): Promise<void>;
   deleteHabitLogs(habitId: string): Promise<void>;
-  getHabitLogs(habitId: string): Promise<HabitLog[]>;
+  getHabitLogs(habitId: string): HabitLog[];
   getStats(): Promise<UserStats>;
 }
 
@@ -89,7 +89,7 @@ class LocalStorageAdapter implements StorageAdapter {
     localStorage.removeItem(LOGS_KEY);
   }
 
-  async getLogs(): Promise<HabitLog[]> {
+  getLogs(): HabitLog[] {
     try {
       const data = localStorage.getItem(LOGS_KEY);
       return data ? JSON.parse(data) : [];
@@ -126,7 +126,7 @@ class LocalStorageAdapter implements StorageAdapter {
 
   async deleteHabitLogs(habitId: string): Promise<void> {
     try {
-      const logs = await this.getLogs();
+      const logs = this.getLogs();
       const filtered = logs.filter((l) => l.habitId !== habitId);
       localStorage.setItem(LOGS_KEY, JSON.stringify(filtered));
     } catch (error) {
@@ -134,8 +134,8 @@ class LocalStorageAdapter implements StorageAdapter {
     }
   }
 
-  async getHabitLogs(habitId: string): Promise<HabitLog[]> {
-    const logs = await this.getLogs();
+  getHabitLogs(habitId: string): HabitLog[] {
+    const logs = this.getLogs();
     return logs.filter((l) => l.habitId === habitId);
   }
 }
@@ -167,12 +167,12 @@ class APIAdapter implements StorageAdapter {
     return Promise.resolve(undefined);
   }
 
-  async getHabitLogs(habitId: string): Promise<HabitLog[]> {
-    return Promise.resolve([]);
+  getHabitLogs(habitId: string): HabitLog[] {
+    return [];
   }
 
-  getLogs(): Promise<HabitLog[]> {
-    return Promise.resolve([]);
+  getLogs(): HabitLog[] {
+    return [];
   }
 
   saveLog(habitId: string, date: string, completed: boolean): Promise<void> {
