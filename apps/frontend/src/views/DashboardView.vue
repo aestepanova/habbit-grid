@@ -12,7 +12,7 @@
           v-for="habit in habits"
           :key="habit.id"
           :habit="habit"
-          :logs="getHabitLogs(habit.id)"
+          :logs="await getHabitLogs(habit.id)"
           @edit="onEdit"
           @delete="onDelete"
         />
@@ -38,7 +38,10 @@ import BaseButton from "@/components/common/BaseButton.vue";
 import BaseModal from "@/components/common/BaseModal.vue";
 import HabitCard from "@/components/habits/HabitCard.vue";
 import HabitForm from "@/components/habits/HabitForm.vue";
-import type { Habit } from "../../../../packages/shared-types/habit.ts";
+import type {
+  Habit,
+  HabitLog,
+} from "../../../../packages/shared-types/habit.ts";
 
 const { habits, loading, error, addHabit, deleteHabit } = useHabits();
 const isModalOpen = ref(false);
@@ -57,7 +60,9 @@ const onEdit = (habit: Habit) => {
   console.log("Редактировать:", habit);
 };
 
-const getHabitLogs = async (habitId: string) => {
+const getHabitLogs: (habitId: string) => Promise<HabitLog[]> = async (
+  habitId: string,
+) => {
   return await habitStorage.getHabitLogs(habitId);
 };
 </script>
