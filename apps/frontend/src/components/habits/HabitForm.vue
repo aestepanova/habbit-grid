@@ -94,7 +94,7 @@
       <BaseButton
         variant="primary"
         size="medium"
-        :label="isEditing ? 'Сохранить' : 'Добавить'"
+        :label="isEditing ? 'Сохранить изменения' : 'Добавить'"
         type="submit"
         :loading="isSubmitting"
       />
@@ -103,9 +103,11 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 import BaseButton from "@/components/common/BaseButton.vue";
 import type { Habit } from "../../../../../packages/shared-types/habit.ts";
+
+type NewHabit = Omit<Habit, "id" | "createdAt">;
 
 interface Props {
   initialHabit?: Habit | null;
@@ -134,8 +136,8 @@ const colorOptions = [
 ];
 
 const formData = reactive<Habit>({
-  createdAt: new Date(),
-  id: "",
+  createdAt: props.initialHabit?.createdAt || new Date().toISOString(),
+  id: props.initialHabit?.id || "",
   name: props.initialHabit?.name || "",
   description: props.initialHabit?.description || "",
   color: props.initialHabit?.color || colorOptions[0],
@@ -149,7 +151,7 @@ const formData = reactive<Habit>({
 const errors = ref<FormErrors>({});
 const isSubmitting = ref(false);
 
-const isEditing = !!props.initialHabit;
+const isEditing = computed(() => !!props.initialHabit);
 
 const validateForm = (): boolean => {
   errors.value = {};
@@ -173,14 +175,16 @@ const handleSubmit = async () => {
   isSubmitting.value = true;
 
   try {
-    // await addHabit({ ...formData });
-    //
-    // // Генерируем ID если это новая привычка
+    // Имитация задержки сохранения
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Генерируем ID если это новая привычка
     if (!formData.id) {
       formData.id = `habit_${Date.now()}`;
+      formData.createdAt = new Date();
     }
 
-    emit("success", { ...formData });
+    emit("success", { ...formData } as Habit);
   } finally {
     isSubmitting.value = false;
   }

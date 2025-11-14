@@ -4,7 +4,7 @@
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else>
       <!-- Кнопка добавления -->
-      <BaseButton @click="isModalOpen = true"> + Новая привычка </BaseButton>
+      <BaseButton @click="openAddModal"> + Новая привычка </BaseButton>
 
       <!-- Список привычек -->
       <div class="habits-container">
@@ -13,25 +13,38 @@
           :key="habit.id"
           :habit="habit"
           :logs="getHabitLogs(habit.id)"
-          @edit="onEdit"
+          @edit="openEditModal"
           @delete="onDelete"
         />
       </div>
 
-      <!-- Модальное окно -->
+      <!-- Модальное окно для добавления -->
       <BaseModal
-        title="Добавить привычку"
-        :is-open="isModalOpen"
-        @close="isModalOpen = false"
+        title="Добавить новую привычку"
+        :is-open="isAddModalOpen"
+        @close="isAddModalOpen = false"
       >
-        <HabitForm @success="onAddHabit" />
+        <HabitForm @success="onAddHabit" @cancel="isAddModalOpen = false" />
+      </BaseModal>
+
+      <!-- Модальное окно для редактирования -->
+      <BaseModal
+        title="Редактировать привычку"
+        :is-open="isEditModalOpen"
+        @close="isEditModalOpen = false"
+      >
+        <HabitForm
+          :initial-habit="selectedHabit"
+          @success="onUpdateHabit"
+          @cancel="isEditModalOpen = false"
+        />
       </BaseModal>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useHabits } from "@/composables/useHabits";
 import { habitStorageService as habitStorage } from "@/services/habitStorage";
 import BaseButton from "@/components/common/BaseButton.vue";
@@ -43,24 +56,61 @@ import type {
   HabitLog,
 } from "../../../../packages/shared-types/habit.ts";
 
-const { habits, loading, error, addHabit, deleteHabit } = useHabits();
-const isModalOpen = ref(false);
+const { habits, loading, error, addHabit, updateHabit, deleteHabit } =
+  useHabits();
+
+const isAddModalOpen = ref(false);
+const isEditModalOpen = ref(false);
+const selectedHabit = ref<Habit | null>(null);
+
+const openAddModal = () => {
+  isAddModalOpen.value = true;
+};
+
+const openEditModal = (habit: Habit) => {
+  selectedHabit.value = habit;
+  isEditModalOpen.value = true;
+};
 
 const onAddHabit = (habitData: Habit) => {
   addHabit(habitData);
-  isModalOpen.value = false;
+  isAddModalOpen.value = false;
+};
+
+const onUpdateHabit = (habitData: Habit) => {
+  updateHabit(habitData);
+  isEditModalOpen.value = false;
+  selectedHabit.value = null;
 };
 
 const onDelete = (habitId: string) => {
-  deleteHabit(habitId);
-};
-
-const onEdit = (habit: Habit) => {
-  // Логика редактирования
-  console.log("Редактировать:", habit);
+  if (confirm("Вы уверены, что хотите удалить эту привычку?")) {
+    deleteHabit(habitId);
+  }
 };
 
 const getHabitLogs: (habitId: string) => HabitLog[] = (habitId: string) => {
   return habitStorage.getHabitLogs(habitId);
 };
 </script>
+
+<style scoped>
+.dashboard-view {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.error {
+  background: #fee;
+  color: #c00;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.habits-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+</style>

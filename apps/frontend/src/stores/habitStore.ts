@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import type { Habit } from "../../../../packages/shared-types/habit.ts";
 import { habitStorageService } from "@/services/habitStorage.ts";
 
-export const useHabitsStore = defineStore("habits", {
+export const useHabitsStore = defineStore("habitStore", {
   state: () => ({
     habits: [] as Habit[],
     selectedDate: new Date(),

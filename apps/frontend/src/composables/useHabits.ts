@@ -29,7 +29,7 @@ export function useHabits() {
     const newHabit: Habit = {
       ...habit,
       id: `habit_${Date.now()}`,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     };
 
     await habitStorage.saveHabit(newHabit);
@@ -53,7 +53,7 @@ export function useHabits() {
   // Отметить выполнение
   const markHabit = async (
     habitId: string,
-    date: string = new Date().toString(),
+    date: string = new Date().toISOString(),
   ) => {
     await habitStorage.saveLog(habitId, date, true);
   };
@@ -61,7 +61,7 @@ export function useHabits() {
   // Отметить невыполнение
   const unmarkHabit = async (
     habitId: string,
-    date: string = new Date().toString(),
+    date: string = new Date().toISOString(),
   ) => {
     await habitStorage.saveLog(habitId, date, false);
   };

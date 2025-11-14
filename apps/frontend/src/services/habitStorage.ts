@@ -35,7 +35,7 @@ const defaultHabit: Habit = {
   completed: true,
   streak: 0,
   category: "Health",
-  createdAt: new Date("2021-07-25"),
+  createdAt: new Date().toISOString(),
 };
 
 class LocalStorageAdapter implements StorageAdapter {

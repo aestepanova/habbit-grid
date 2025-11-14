@@ -8,7 +8,7 @@ export interface Habit {
   completed: boolean
   streak: number
   category: string
-  createdAt: Date
+  createdAt: string
 }
 
 export interface HabitLog {

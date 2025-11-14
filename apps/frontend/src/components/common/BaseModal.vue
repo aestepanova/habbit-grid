@@ -35,73 +35,73 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted } from "vue";
 
 interface Props {
-  title?: string
-  isOpen?: boolean
-  closeOnBackdrop?: boolean
-  closeOnEscape?: boolean
-  size?: 'small' | 'medium' | 'large'
+  title?: string;
+  isOpen?: boolean;
+  closeOnBackdrop?: boolean;
+  closeOnEscape?: boolean;
+  size?: "small" | "medium" | "large";
 }
 
 const props = withDefaults(defineProps<Props>(), {
   isOpen: false,
   closeOnBackdrop: true,
   closeOnEscape: true,
-  size: 'medium'
-})
+  size: "medium",
+});
 
 const emit = defineEmits<{
-  close: []
-  'update:isOpen': [value: boolean]
-}>()
+  close: [];
+  "update:isOpen": [value: boolean];
+}>();
 
 const isOpen = computed({
   get: () => props.isOpen,
-  set: (value) => emit('update:isOpen', value)
-})
+  set: (value) => emit("update:isOpen", value),
+});
 
 const handleClose = () => {
-  emit('close')
-  isOpen.value = false
-}
+  emit("close");
+  isOpen.value = false;
+};
 
 const handleBackdropClick = () => {
   if (props.closeOnBackdrop) {
-    handleClose()
+    handleClose();
   }
-}
+};
 
 const handleEscape = (event: KeyboardEvent) => {
-  if (event.key === 'Escape' && props.closeOnEscape && isOpen.value) {
-    handleClose()
+  if (event.key === "Escape" && props.closeOnEscape && isOpen.value) {
+    handleClose();
   }
-}
+};
 
 onMounted(() => {
-  document.addEventListener('keydown', handleEscape)
+  document.addEventListener("keydown", handleEscape);
   if (isOpen.value) {
-    document.body.style.overflow = 'hidden'
+    document.body.style.overflow = "hidden";
   }
-})
+});
 
 onUnmounted(() => {
-  document.removeEventListener('keydown', handleEscape)
-  document.body.style.overflow = 'auto'
-})
+  document.removeEventListener("keydown", handleEscape);
+  document.body.style.overflow = "auto";
+});
 
 watch(isOpen, (newValue) => {
   if (newValue) {
-    document.body.style.overflow = 'hidden'
+    document.body.style.overflow = "hidden";
   } else {
-    document.body.style.overflow = 'auto'
+    document.body.style.overflow = "auto";
   }
-})
+});
 </script>
 
 <script lang="ts">
-import { watch } from 'vue'
+import { watch } from "vue";
 </script>
 
 <style scoped>
@@ -112,7 +112,7 @@ import { watch } from 'vue'
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,7 +122,7 @@ import { watch } from 'vue'
 
 /* Модальное окно */
 .base-modal {
-  background: var(--color-card);
+  background: var(--color-bg);
   border-radius: 16px;
   box-shadow: var(--color-shadow-card);
   max-width: 90vw;
@@ -181,7 +181,7 @@ import { watch } from 'vue'
 
   &:hover {
     background: var(--color-card-secondary);
-    color: var(--color-primary);
+    color: var(--color-accent);
   }
 
   &:focus-visible {

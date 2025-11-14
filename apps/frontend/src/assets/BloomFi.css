@@ -1,0 +1,323 @@
+/* main.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Основные цвета (сине-фиолетовая палитра) */
+  --color-primary: #5d4a9e;           /* глубокий фиолетовый */
+  --color-primary-light: #7c6ab8;     /* светлый фиолетовый */
+  --color-primary-dark: #4a3a7a;      /* тёмный фиолетовый */
+  --color-accent: #6366f1;            /* яркий индиго */
+  --color-accent-light: #818cf8;      /* светлый индиго */
+
+  /* Дополнительные градиентные цвета */
+  --color-grad-purple: #8b7fd4;
+  --color-grad-blue: #6b9dd6;
+  --color-grad-lavender: #d8cfe8;     /* светлая лаванда для фона */
+
+  /* Фоновые цвета (светлая тема) */
+  --color-bg: #f8f6ff;                /* основной фон (очень светлый, почти белый) */
+  --color-bg-secondary: #f0ebfa;      /* вторичный фон (лаванда) */
+  --color-bg-card: #ffffff;           /* белый фон карточек */
+  --color-bg-card-dark: #2d2547;      /* тёмные карточки для контраста */
+
+  /* Текстовые цвета */
+  --color-text-primary: #1a1a1a;      /* основной тёмный текст */
+  --color-text-secondary: #4a4a5a;    /* серый текст */
+  --color-text-muted: #8a8a9a;        /* приглушенный текст */
+  --color-text-white: #ffffff;
+  --color-text-light: #f5f3ff;        /* светлый текст для тёмных карточек */
+
+  /* Обводки и разделители */
+  --color-border: #e8e4f0;
+  --color-border-light: #f0ebfa;
+  --color-border-dark: #2d2547;
+
+  /* Тени */
+  --color-shadow: 0 4px 16px rgba(93, 74, 158, 0.08);
+  --color-shadow-card: 0 8px 32px rgba(93, 74, 158, 0.12);
+  --color-shadow-glow: 0 0 24px rgba(99, 102, 241, 0.15);
+
+  /* Градиенты */
+  --gradient-primary: linear-gradient(135deg, #5d4a9e 0%, #6366f1 50%, #8b7fd4 100%);
+  --gradient-accent: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+  --gradient-warm: linear-gradient(135deg, #8b7fd4 0%, #a8a2d8 100%);
+  --gradient-bg: linear-gradient(135deg, #f8f6ff 0%, #f0ebfa 100%);
+
+  /* Радиусы скругления */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Переходы */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========== БАЗОВЫЕ СТИЛИ ========== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--gradient-bg);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  font-size: 48px;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 36px;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+}
+
+h3 {
+  font-size: 24px;
+  color: var(--color-primary-light);
+}
+
+p {
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* Ссылки */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* ========== КНОПКИ ========== */
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-text-white);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 12px 32px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--color-shadow);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--color-shadow-glow);
+}
+
+.btn-secondary {
+  background: var(--color-bg-secondary);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 12px 32px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-secondary:hover {
+  background: var(--color-border-light);
+  border-color: var(--color-accent);
+}
+
+.btn-dark {
+  background: var(--color-bg-card-dark);
+  color: var(--color-text-light);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 12px 32px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-dark:hover {
+  background: var(--color-primary);
+  box-shadow: var(--color-shadow-glow);
+}
+
+.btn-gradient {
+  background: var(--gradient-primary);
+  color: var(--color-text-white);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 14px 36px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--color-shadow-glow);
+}
+
+.btn-gradient:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.25);
+}
+
+/* ========== КАРТОЧКИ ========== */
+
+.card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  transition: var(--transition);
+  box-shadow: var(--color-shadow);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--color-shadow-card);
+  border-color: var(--color-accent-light);
+}
+
+.card-gradient {
+  background: var(--gradient-accent);
+  border: none;
+  color: var(--color-text-white);
+  box-shadow: var(--color-shadow-glow);
+}
+
+.card-gradient:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.25);
+}
+
+.card-dark {
+  background: var(--color-bg-card-dark);
+  border: 1px solid var(--color-border-dark);
+  color: var(--color-text-light);
+}
+
+.card-dark:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+}
+
+.card-light {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+}
+
+/* ========== ФОРМЫ И ИНПУТЫ ========== */
+
+input, textarea, select {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 15px;
+  transition: var(--transition);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  background: var(--color-bg-card);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* ========== УТИЛИТЫ ========== */
+
+.text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow {
+  box-shadow: var(--color-shadow-glow);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+/* ========== СКРОЛЛБАР ========== */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent-light);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: var(--radius-lg);
+  }
+
+  .btn-primary, .btn-secondary, .btn-dark, .btn-gradient {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+}
