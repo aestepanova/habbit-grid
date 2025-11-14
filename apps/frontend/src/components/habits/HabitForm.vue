@@ -107,8 +107,6 @@ import { reactive, ref, computed } from "vue";
 import BaseButton from "@/components/common/BaseButton.vue";
 import type { Habit } from "../../../../../packages/shared-types/habit.ts";
 
-type NewHabit = Omit<Habit, "id" | "createdAt">;
-
 interface Props {
   initialHabit?: Habit | null;
 }
@@ -181,7 +179,7 @@ const handleSubmit = async () => {
     // Генерируем ID если это новая привычка
     if (!formData.id) {
       formData.id = `habit_${Date.now()}`;
-      formData.createdAt = new Date();
+      formData.createdAt = new Date().toISOString();
     }
 
     emit("success", { ...formData } as Habit);

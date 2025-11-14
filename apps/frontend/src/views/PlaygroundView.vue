@@ -206,7 +206,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 import { useHabits } from "@/composables/useHabits";
 import type {
   Habit,
@@ -335,17 +335,19 @@ const getBestStreak = (habitId: string): number => {
     if (index === 0) {
       currentStreak = 1;
     } else {
-      const prevDate = new Date(sortedLogs[index - 1].date);
-      const currDate = new Date(log.date);
-      const dayDiff = Math.floor(
-        (currDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24),
-      );
-
-      if (dayDiff === 1) {
-        currentStreak++;
-      } else {
-        maxStreak = Math.max(maxStreak, currentStreak);
-        currentStreak = 1;
+      const prevLog = sortedLogs[index - 1];
+      if (prevLog && prevLog.date) {
+        const prevDate = new Date(prevLog.date);
+        const currDate = new Date(log.date);
+        const dayDiff = Math.floor(
+          (currDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24),
+        );
+        if (dayDiff === 1) {
+          currentStreak++;
+        } else {
+          maxStreak = Math.max(maxStreak, currentStreak);
+          currentStreak = 1;
+        }
       }
     }
   });
