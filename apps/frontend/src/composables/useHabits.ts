@@ -25,6 +25,11 @@ export function useHabits() {
     }
   };
 
+  const reloadHabits = async () => {
+    console.log("🔄 Перезагрузка привычек...");
+    await loadHabits();
+  };
+
   const addHabit = async (habit: Omit<Habit, "id" | "createdAt">) => {
     const newHabit: Habit = {
       ...habit,
@@ -50,20 +55,57 @@ export function useHabits() {
     habits.value = habits.value.filter((h) => h.id !== habitId);
   };
 
-  // Отметить выполнение
-  const markHabit = async (
+  // Отметить выполнение за конкретный день
+  const markHabitDate = async (
     habitId: string,
-    date: string = new Date().toISOString(),
+    date: string,
+    completed: boolean = true,
   ) => {
-    await habitStorage.saveLog(habitId, date, true);
+    await habitStorage.saveLog(habitId, date, completed);
   };
 
-  // Отметить невыполнение
-  const unmarkHabit = async (
+  // Отметить сегодня
+  const markHabitsToday = async (
     habitId: string,
-    date: string = new Date().toISOString(),
+    completed: boolean = true,
   ) => {
-    await habitStorage.saveLog(habitId, date, false);
+    const today = new Date().toISOString().split("T")[0];
+    if (today) {
+      await habitStorage.saveLog(habitId, today, completed);
+    }
+  };
+
+  // Отметить неделю дней назад
+  const markHabitWeekAgo = async (
+    habitId: string,
+    daysAgo: number,
+    completed: boolean = true,
+  ) => {
+    const date = new Date();
+    date.setDate(date.getDate() - daysAgo);
+    const dateStr = date.toISOString().split("T")[0];
+    if (dateStr) {
+      await habitStorage.saveLog(habitId, dateStr, completed);
+    }
+  };
+
+  // Получить все логи привычки
+  const getHabitLogs = (habitId: string) => {
+    return habitStorage.getHabitLogs(habitId);
+  };
+
+  // Проверить, выполнена ли привычка в конкретный день
+  const isCompletedOn = (habitId: string, date: string): boolean => {
+    const logs = habitStorage.getHabitLogs(habitId);
+    return logs.some((log) => log.date === date && log.completed);
+  };
+
+  // Проверить, выполнена ли привычка сегодня
+  const isCompletedToday = (habitId: string): boolean => {
+    const today = new Date().toISOString().split("T")[0];
+    if (today) {
+      return isCompletedOn(habitId, today);
+    } else return false;
   };
 
   const dailyHabits = computed(() =>
@@ -89,9 +131,13 @@ export function useHabits() {
     addHabit,
     deleteHabit,
     updateHabit,
-    markHabit,
-    unmarkHabit,
+    markHabitDate,
+    markHabitsToday,
+    markHabitWeekAgo,
+    isCompletedOn,
+    isCompletedToday,
     loadHabits,
+    reloadHabits,
     onMounted,
   };
 }

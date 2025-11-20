@@ -66,6 +66,13 @@
     <!-- Действия -->
     <div class="habit-card__actions">
       <button
+        class="habit-card__action habit-card__action--calendar"
+        aria-label="Отметить за конкретный день"
+        @click="openDatePicker"
+      >
+        📅
+      </button>
+      <button
         class="habit-card__action habit-card__action--edit"
         aria-label="Редактировать"
         @click="handleEdit"
@@ -80,6 +87,14 @@
         ✕
       </button>
     </div>
+
+    <DatePickerModal
+      :is-open="isDatePickerOpen"
+      :habit-id="habit.id"
+      @close="isDatePickerOpen = false"
+      @mark-completed="(id, date) => handleMarkCompleted(id, date)"
+      @mark-incomplete="(id, date) => handleMarkIncompleted(id, date)"
+    />
   </div>
 </template>
 
@@ -90,6 +105,7 @@ import type {
   HabitLog,
   UserStats,
 } from "../../../../../packages/shared-types/habit.ts";
+import DatePickerModal from "@/components/dates/DatePickerModal.vue";
 
 interface Props {
   habit: Habit;
@@ -111,10 +127,23 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   edit: [habit: Habit];
   delete: [habitId: string];
-  toggle: [habitId: string];
+  markDate: [habitId: string, date: string, completed: boolean];
 }>();
 
 const isActive = computed(() => props.completionToday);
+const isDatePickerOpen = ref(false);
+
+const openDatePicker = () => {
+  isDatePickerOpen.value = true;
+};
+
+const handleMarkCompleted = (habitId: string, date: string) => {
+  emit("markDate", habitId, date, true);
+};
+
+const handleMarkIncompleted = (habitId: string, date: string) => {
+  emit("markDate", habitId, date, false);
+};
 
 const categoryLabels: Record<string, string> = {
   health: "🏃 Здоровье",

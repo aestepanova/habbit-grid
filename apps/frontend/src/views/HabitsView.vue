@@ -61,7 +61,7 @@
       <!-- Error State -->
       <div v-else-if="error" class="error-state card">
         <p>❌ {{ error }}</p>
-        <BaseButton label="Попробовать снова" @click="reloadHabits" />
+        <BaseButton label="Попробовать снова" @click="handleReloadHabits" />
       </div>
 
       <!-- Empty State -->
@@ -89,6 +89,7 @@
           :completion-count="getCompletionCount(habit.id)"
           @edit="openEditModal"
           @delete="onDelete"
+          @mark-date="onMarkDate"
         />
       </div>
     </section>
@@ -219,8 +220,17 @@ import HabitCard from "@/components/habits/HabitCard.vue";
 import HabitForm from "@/components/habits/HabitForm.vue";
 
 // Composable для работы с привычками
-const { habits, loading, error, addHabit, updateHabit, deleteHabit } =
-  useHabits();
+const {
+  habits,
+  loading,
+  error,
+  addHabit,
+  updateHabit,
+  deleteHabit,
+  markHabitDate,
+  isCompletedOn,
+  reloadHabits,
+} = useHabits();
 
 // Состояние модальных окон
 const isAddModalOpen = ref(false);
@@ -388,8 +398,13 @@ const onDelete = (habitId: string) => {
   }
 };
 
-const reloadHabits = () => {
-  window.location.reload();
+const onMarkDate = (habitId: string, date: string, completed: boolean) => {
+  markHabitDate(habitId, date, completed);
+  reloadHabits();
+};
+
+const handleReloadHabits = () => {
+  reloadHabits();
 };
 </script>
 
