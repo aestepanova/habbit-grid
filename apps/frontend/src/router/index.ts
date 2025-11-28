@@ -23,6 +23,11 @@ const router = createRouter({
       name: "analytics",
       component: () => import("@/views/AnalyticsView.vue"),
     },
+    {
+      path: "/themePlay",
+      name: "themePlay",
+      component: () => import("@/views/ThemePlayView.vue"),
+    },
   ],
 });
 

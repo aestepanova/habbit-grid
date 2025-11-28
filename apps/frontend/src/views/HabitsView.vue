@@ -3,13 +3,10 @@
     <!-- Hero Section -->
     <section class="hero-section">
       <div class="hero-content">
-        <h1 class="hero-title">Отслеживайте привычки и добивайтесь целей</h1>
-        <p class="hero-subtitle">
-          Простой и мощный инструмент для управления вашими ежедневными
-          практиками
-        </p>
+        <h1 class="hero-title">{{ t("hero.title") }}</h1>
+        <p class="hero-subtitle">{{ t("hero.subtitle") }}</p>
         <BaseButton
-          label="+ Начать отслеживать"
+          :label="t('hero.cta')"
           class="btn-gradient"
           @click="openAddModal"
         />
@@ -22,31 +19,41 @@
     <!-- Stats Section -->
     <section class="stats-section">
       <div class="stats-grid">
-        <div class="stat-card card">
-          <div class="stat-number">{{ habits.length }}</div>
-          <p class="stat-label">Активных привычек</p>
-        </div>
-        <div class="stat-card card">
-          <div class="stat-number">{{ totalCompleted }}</div>
-          <p class="stat-label">Выполнено за месяц</p>
-        </div>
-        <div class="stat-card card">
-          <div class="stat-number">{{ bestStreak }}</div>
-          <p class="stat-label">Лучшая серия дней</p>
-        </div>
-        <div class="stat-card card">
-          <div class="stat-number">{{ completionPercentage }}%</div>
-          <p class="stat-label">Процент выполнения</p>
-        </div>
+        <StatsCard
+          :title="t('stats.activeHabits')"
+          :value="habits.length"
+          icon="📚"
+          variant="primary"
+        />
+        <StatsCard
+          :title="t('stats.completedThisMonth')"
+          :value="totalCompleted"
+          icon="✓"
+          variant="success"
+        />
+        <StatsCard
+          :title="t('stats.bestStreak')"
+          :value="bestStreak"
+          unit="дней"
+          icon="🔥"
+          variant="warning"
+        />
+        <StatsCard
+          :title="t('stats.completionRate')"
+          :value="completionPercentage"
+          unit="%"
+          icon="📊"
+          variant="primary"
+        />
       </div>
     </section>
 
     <!-- Main Content -->
     <section class="main-section">
       <div class="section-header">
-        <h2>Мои привычки</h2>
+        <h2>{{ t("habits.title") }}</h2>
         <BaseButton
-          label="+ Новая привычка"
+          :label="t('habits.addNew')"
           variant="primary"
           @click="openAddModal"
         />
@@ -55,22 +62,22 @@
       <!-- Loading State -->
       <div v-if="loading" class="loading-state">
         <div class="spinner"></div>
-        <p>Загрузка привычек...</p>
+        <p>{{ t("habits.loading") }}</p>
       </div>
 
       <!-- Error State -->
       <div v-else-if="error" class="error-state card">
         <p>❌ {{ error }}</p>
-        <BaseButton label="Попробовать снова" @click="handleReloadHabits" />
+        <BaseButton :label="t('habits.tryAgain')" @click="handleReloadHabits" />
       </div>
 
       <!-- Empty State -->
       <div v-else-if="habits.length === 0" class="empty-state card">
         <div class="empty-icon">🌱</div>
-        <h3>Нет привычек</h3>
-        <p>Начните отслеживать свои привычки прямо сейчас</p>
+        <h3>{{ t("habits.noHabits") }}</h3>
+        <p>{{ t("habits.noHabitsDescription") }}</p>
         <BaseButton
-          label="Создать первую привычку"
+          :label="t('habits.createFirst')"
           variant="primary"
           @click="openAddModal"
         />
@@ -82,11 +89,6 @@
           v-for="habit in habits"
           :key="habit.id"
           :habit="habit"
-          :logs="getHabitLogs(habit.id)"
-          :completion-today="isCompletedToday(habit.id)"
-          :current-streak="getStreak(habit.id)"
-          :best-streak="getBestStreak(habit.id)"
-          :completion-count="getCompletionCount(habit.id)"
           @edit="openEditModal"
           @delete="onDelete"
           @mark-date="onMarkDate"
@@ -96,80 +98,56 @@
 
     <!-- Features Section (SEO) -->
     <section class="features-section">
-      <h2>Почему стоит отслеживать привычки?</h2>
+      <h2>{{ t("features.title") }}</h2>
       <div class="features-grid">
         <div class="feature-card card">
           <div class="feature-icon">📈</div>
-          <h3>Видите прогресс</h3>
-          <p>
-            Отслеживайте свой рост и прогресс в реальном времени. Каждый день —
-            шаг к цели.
-          </p>
+          <h3>{{ t("features.seeProgress.title") }}</h3>
+          <p>{{ t("features.seeProgress.description") }}</p>
         </div>
         <div class="feature-card card">
           <div class="feature-icon">🎯</div>
-          <h3>Достигайте целей</h3>
-          <p>
-            Разбивайте большие цели на маленькие ежедневные привычки для
-            достижения результата.
-          </p>
+          <h3>{{ t("features.achieveGoals.title") }}</h3>
+          <p>{{ t("features.achieveGoals.description") }}</p>
         </div>
         <div class="feature-card card">
           <div class="feature-icon">💪</div>
-          <h3>Вырабатывайте дисциплину</h3>
-          <p>
-            Последовательность — ключ к успеху. Создавайте системы и достигайте
-            больше.
-          </p>
+          <h3>{{ t("features.buildDiscipline.title") }}</h3>
+          <p>{{ t("features.buildDiscipline.description") }}</p>
         </div>
         <div class="feature-card card">
           <div class="feature-icon">📊</div>
-          <h3>Анализируйте статистику</h3>
-          <p>
-            Детальная аналитика поможет вам понять ваши сильные и слабые
-            стороны.
-          </p>
+          <h3>{{ t("features.analyzeStats.title") }}</h3>
+          <p>{{ t("features.analyzeStats.description") }}</p>
         </div>
       </div>
     </section>
 
     <!-- FAQ Section (SEO) -->
     <section class="faq-section">
-      <h2>Часто задаваемые вопросы</h2>
+      <h2>{{ t("faq.title") }}</h2>
       <div class="faq-list">
         <div class="faq-item card">
-          <h4>Могу ли я редактировать привычку?</h4>
-          <p>
-            Да, вы можете редактировать любую привычку в любой момент. Просто
-            нажмите на кнопку редактирования на карточке привычки.
-          </p>
+          <h4>{{ t("faq.q1Title") }}</h4>
+          <p>{{ t("faq.q1Answer") }}</p>
         </div>
         <div class="faq-item card">
-          <h4>Где сохраняются мои данные?</h4>
-          <p>
-            Все данные сохраняются в локальном хранилище вашего браузера. Ваши
-            привычки и логи доступны только вам.
-          </p>
+          <h4>{{ t("faq.q2Title") }}</h4>
+          <p>{{ t("faq.q2Answer") }}</p>
         </div>
         <div class="faq-item card">
-          <h4>Как разбить плохую привычку?</h4>
-          <p>
-            Используйте тот же метод отслеживания, но обратный — записывайте
-            дни, когда вы избегли плохой привычки.
-          </p>
+          <h4>{{ t("faq.q3Title") }}</h4>
+          <p>{{ t("faq.q3Answer") }}</p>
         </div>
       </div>
     </section>
 
     <!-- CTA Section -->
     <section class="cta-section card-gradient">
-      <h2>Начните отслеживать привычки прямо сейчас</h2>
-      <p>
-        Превратите свои мечты в реальность с помощью последовательного
-        отслеживания
-      </p>
+      <h2>{{ t("cta.title") }}</h2>
+      <p>{{ t("cta.subtitle") }}</p>
       <BaseButton
-        label="Создать первую привычку"
+        :label="t('cta.button')"
         class="btn-gradient"
         @click="openAddModal"
       />
@@ -177,7 +155,7 @@
 
     <!-- Modals -->
     <BaseModal
-      title="Добавить новую привычку"
+      :title="t('modals.addHabit')"
       :is-open="isAddModalOpen"
       @close="isAddModalOpen = false"
     >
@@ -185,7 +163,7 @@
     </BaseModal>
 
     <BaseModal
-      title="Редактировать привычку"
+      :title="t('modals.editHabit')"
       :is-open="isEditModalOpen"
       @close="isEditModalOpen = false"
     >
@@ -201,6 +179,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useHabits } from "@/composables/useHabits";
+import { useI18n } from "vue-i18n";
 import type {
   Habit,
   HabitLog,
@@ -210,6 +189,8 @@ import BaseButton from "@/components/common/BaseButton.vue";
 import BaseModal from "@/components/common/BaseModal.vue";
 import HabitCard from "@/components/habits/HabitCard.vue";
 import HabitForm from "@/components/habits/HabitForm.vue";
+import StatsCard from "@/components/analytics/StatsCard.vue";
+import AppHeader from "@/components/common/AppHeader.vue";
 
 // Composable для работы с привычками
 const {
@@ -223,6 +204,8 @@ const {
   isCompletedOn,
   reloadHabits,
 } = useHabits();
+
+const { t } = useI18n();
 
 // Состояние модальных окон
 const isAddModalOpen = ref(false);

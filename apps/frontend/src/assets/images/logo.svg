@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Habit Grid Logo - Primary (3x3 grid) -->
+  <!-- Base: 256x256px viewBox for infinite scalability -->
+  
+  <defs>
+    <!-- Gradient definitions for multi-theme support -->
+    <linearGradient id="gradientPrimary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5d4a9e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="gradientAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#818cf8;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Filter for subtle glow effect -->
+    <filter id="glowEffect">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Animation for splash screen -->
+    <style>
+      @keyframes fillProgress {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        100% { opacity: 1; }
+      }
+
+      @keyframes checkmarkDraw {
+        0% {
+          stroke-dashoffset: 30;
+          opacity: 0;
+        }
+        60% {
+          stroke-dashoffset: 0;
+          opacity: 0.5;
+        }
+        100% {
+          stroke-dashoffset: 0;
+          opacity: 1;
+        }
+      }
+
+      .cell-1 { animation: fillProgress 0.8s ease-out forwards; animation-delay: 0s; }
+      .cell-2 { animation: fillProgress 0.8s ease-out forwards; animation-delay: 0.1s; }
+      .cell-3 { animation: fillProgress 0.8s ease-out forwards; animation-delay: 0.2s; }
+      .cell-4 { animation: fillProgress 0.8s ease-out forwards; animation-delay: 0.3s; }
+      .cell-5 { animation: fillProgress 0.8s ease-out forwards; animation-delay: 0.4s; }
+      .checkmark { animation: checkmarkDraw 1.2s ease-out forwards; animation-delay: 1s; }
+    </style>
+  </defs>
+
+  <!-- STATIC VERSION (Default) -->
+  <g id="static-version">
+    <!-- Grid cells: 3x3 layout -->
+    <!-- Cell dimensions: 56x56px with 8px padding, 4px gap between cells -->
+    
+    <!-- Row 1 -->
+    <!-- Cell 1 (empty) -->
+    <rect x="32" y="32" width="52" height="52" rx="4" fill="#f0ebfa" stroke="#e8e4f0" stroke-width="1"/>
+    
+    <!-- Cell 2 (filled) - diagonal progress starts -->
+    <rect x="102" y="32" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1"/>
+    
+    <!-- Cell 3 (filled) -->
+    <rect x="172" y="32" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1"/>
+    
+    <!-- Row 2 -->
+    <!-- Cell 4 (filled) -->
+    <rect x="32" y="102" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1"/>
+    
+    <!-- Cell 5 (center - filled with gradient, contains checkmark) -->
+    <rect x="102" y="102" width="52" height="52" rx="4" fill="url(#gradientPrimary)" stroke="url(#gradientPrimary)" stroke-width="1" filter="url(#glowEffect)"/>
+    
+    <!-- Cell 6 (filled) -->
+    <rect x="172" y="102" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1"/>
+    
+    <!-- Row 3 -->
+    <!-- Cell 7 (filled) -->
+    <rect x="32" y="172" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1"/>
+    
+    <!-- Cell 8 (filled) -->
+    <rect x="102" y="172" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1"/>
+    
+    <!-- Cell 9 (empty) -->
+    <rect x="172" y="172" width="52" height="52" rx="4" fill="#f0ebfa" stroke="#e8e4f0" stroke-width="1"/>
+    
+    <!-- Center checkmark (green) -->
+    <g transform="translate(128, 128)">
+      <path d="M -12,-2 L -4,8 L 12,-8" 
+            fill="none" 
+            stroke="#10B981" 
+            stroke-width="3" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+            stroke-dasharray="30"
+      />
+    </g>
+  </g>
+
+  <!-- ANIMATED VERSION (For splash screens/loading) -->
+  <g id="animated-version" style="display:none;">
+    <!-- Grid cells: 3x3 layout with animation -->
+    
+    <!-- Row 1 -->
+    <rect x="32" y="32" width="52" height="52" rx="4" fill="#f0ebfa" stroke="#e8e4f0" stroke-width="1" class="cell-1"/>
+    <rect x="102" y="32" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1" class="cell-2"/>
+    <rect x="172" y="32" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1" class="cell-3"/>
+    
+    <!-- Row 2 -->
+    <rect x="32" y="102" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1" class="cell-4"/>
+    <rect x="102" y="102" width="52" height="52" rx="4" fill="url(#gradientPrimary)" stroke="url(#gradientPrimary)" stroke-width="1" filter="url(#glowEffect)" class="cell-5"/>
+    <rect x="172" y="102" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1" class="cell-6" style="animation: fillProgress 0.8s ease-out forwards; animation-delay: 0.5s;"/>
+    
+    <!-- Row 3 -->
+    <rect x="32" y="172" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1" class="cell-7" style="animation: fillProgress 0.8s ease-out forwards; animation-delay: 0.6s;"/>
+    <rect x="102" y="172" width="52" height="52" rx="4" fill="#5d4a9e" stroke="#5d4a9e" stroke-width="1" class="cell-8" style="animation: fillProgress 0.8s ease-out forwards; animation-delay: 0.7s;"/>
+    <rect x="172" y="172" width="52" height="52" rx="4" fill="#f0ebfa" stroke="#e8e4f0" stroke-width="1" class="cell-9"/>
+    
+    <!-- Animated checkmark -->
+    <g transform="translate(128, 128)" class="checkmark">
+      <path d="M -12,-2 L -4,8 L 12,-8" 
+            fill="none" 
+            stroke="#10B981" 
+            stroke-width="3" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+            stroke-dasharray="30"
+      />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "habits": "Habits",
+    "dashboard": "Dashboard",
+    "settings": "Settings"
+  },
+  "hero": {
+    "title": "Track habits and achieve goals",
+    "subtitle": "A simple and powerful tool for managing your daily practices",
+    "cta": "Start tracking"
+  },
+  "habits": {
+    "title": "My Habits",
+    "addNew": "New Habit",
+    "noHabits": "No habits",
+    "noHabitsDescription": "Start tracking your habits right now",
+    "createFirst": "Create first habit",
+    "loading": "Loading habits...",
+    "error": "Error loading habits",
+    "tryAgain": "Try again"
+  },
+  "habitCard": {
+    "streak": "Streak",
+    "record": "Record",
+    "completed": "Completed",
+    "edit": "Edit",
+    "delete": "Delete",
+    "markDate": "Mark for date"
+  },
+  "habitForm": {
+    "addTitle": "Add new habit",
+    "editTitle": "Edit habit",
+    "name": "Habit name",
+    "namePlaceholder": "e.g., Meditation, Reading...",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe your habit...",
+    "color": "Habit color",
+    "frequency": "Frequency",
+    "frequencyDaily": "Daily",
+    "frequencyWeekly": "Weekly",
+    "frequencyMonthly": "Monthly",
+    "category": "Category",
+    "categoryPlaceholder": "Select category",
+    "categoryHealth": "Health",
+    "categoryProductivity": "Productivity",
+    "categoryLearning": "Learning",
+    "categoryCreativity": "Creativity",
+    "categoryPersonal": "Personal development",
+    "cancel": "Cancel",
+    "save": "Save changes",
+    "add": "Add"
+  },
+  "datePicker": {
+    "title": "Mark completion",
+    "selectDate": "Select date",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "twoDaysAgo": "2 days ago",
+    "threeDaysAgo": "3 days ago",
+    "weekAgo": "7 days ago",
+    "completed": "Habit already marked on",
+    "notCompleted": "Habit not yet marked on",
+    "markCompleted": "Mark as completed",
+    "markIncomplete": "Mark as incomplete",
+    "cancel": "Cancel"
+  },
+  "stats": {
+    "activeHabits": "Active habits",
+    "completedThisMonth": "Completed this month",
+    "bestStreak": "Best streak",
+    "completionRate": "Completion rate"
+  },
+  "features": {
+    "title": "Why track your habits?",
+    "seeProgress": {
+      "title": "See progress",
+      "description": "Track your growth and progress in real time. Every day is a step towards your goal."
+    },
+    "achieveGoals": {
+      "title": "Achieve goals",
+      "description": "Break down big goals into small daily habits to achieve results."
+    },
+    "buildDiscipline": {
+      "title": "Build discipline",
+      "description": "Consistency is the key to success. Create systems and achieve more."
+    },
+    "analyzeStats": {
+      "title": "Analyze statistics",
+      "description": "Detailed analytics will help you understand your strengths and weaknesses."
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "q1Title": "Can I edit a habit?",
+    "q1Answer": "Yes, you can edit any habit at any time. Just click the edit button on the habit card.",
+    "q2Title": "Where is my data saved?",
+    "q2Answer": "All data is saved in your browser's local storage. Your habits and logs are only accessible to you.",
+    "q3Title": "How do I break a bad habit?",
+    "q3Answer": "Use the same tracking method in reverse — record the days when you avoided the bad habit."
+  },
+  "cta": {
+    "title": "Start tracking habits right now",
+    "subtitle": "Turn your dreams into reality with consistent tracking",
+    "button": "Create first habit"
+  },
+  "modals": {
+    "addHabit": "Add new habit",
+    "editHabit": "Edit habit"
+  },
+  "weekdays": {
+    "monday": "Mon",
+    "tuesday": "Tue",
+    "wednesday": "Wed",
+    "thursday": "Thu",
+    "friday": "Fri",
+    "saturday": "Sat",
+    "sunday": "Sun"
+  },
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  }
+}

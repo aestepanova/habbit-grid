@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "habits": "Abitudini",
+    "dashboard": "Dashboard",
+    "settings": "Impostazioni"
+  },
+  "hero": {
+    "title": "Traccia le tue abitudini e raggiungi i tuoi obiettivi",
+    "subtitle": "Uno strumento semplice e potente per gestire le tue pratiche quotidiane",
+    "cta": "Inizia a tracciare"
+  },
+  "habits": {
+    "title": "Le mie abitudini",
+    "addNew": "Nuova abitudine",
+    "noHabits": "Nessuna abitudine",
+    "noHabitsDescription": "Inizia a tracciare le tue abitudini adesso",
+    "createFirst": "Crea la prima abitudine",
+    "loading": "Caricamento abitudini...",
+    "error": "Errore durante il caricamento",
+    "tryAgain": "Riprova"
+  },
+  "habitCard": {
+    "streak": "Serie",
+    "record": "Record",
+    "completed": "Completato",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "markDate": "Segna per data"
+  },
+  "habitForm": {
+    "addTitle": "Aggiungi nuova abitudine",
+    "editTitle": "Modifica abitudine",
+    "name": "Nome abitudine",
+    "namePlaceholder": "es. Meditazione, Lettura...",
+    "description": "Descrizione",
+    "descriptionPlaceholder": "Descrivi la tua abitudine...",
+    "color": "Colore abitudine",
+    "frequency": "Frequenza",
+    "frequencyDaily": "Giornaliera",
+    "frequencyWeekly": "Settimanale",
+    "frequencyMonthly": "Mensile",
+    "category": "Categoria",
+    "categoryPlaceholder": "Seleziona categoria",
+    "categoryHealth": "Salute",
+    "categoryProductivity": "Produttività",
+    "categoryLearning": "Apprendimento",
+    "categoryCreativity": "Creatività",
+    "categoryPersonal": "Sviluppo personale",
+    "cancel": "Annulla",
+    "save": "Salva modifiche",
+    "add": "Aggiungi"
+  },
+  "datePicker": {
+    "title": "Segna completamento",
+    "selectDate": "Seleziona data",
+    "today": "Oggi",
+    "yesterday": "Ieri",
+    "twoDaysAgo": "2 giorni fa",
+    "threeDaysAgo": "3 giorni fa",
+    "weekAgo": "7 giorni fa",
+    "completed": "Abitudine già segnata il",
+    "notCompleted": "Abitudine non ancora segnata il",
+    "markCompleted": "Segna come completata",
+    "markIncomplete": "Segna come non completata",
+    "cancel": "Annulla"
+  },
+  "stats": {
+    "activeHabits": "Abitudini attive",
+    "completedThisMonth": "Completate questo mese",
+    "bestStreak": "Miglior serie",
+    "completionRate": "Tasso di completamento"
+  },
+  "features": {
+    "title": "Perché tracciare le tue abitudini?",
+    "seeProgress": {
+      "title": "Vedi il progresso",
+      "description": "Traccia la tua crescita e i progressi in tempo reale. Ogni giorno è un passo verso il tuo obiettivo."
+    },
+    "achieveGoals": {
+      "title": "Raggiungi i tuoi obiettivi",
+      "description": "Dividi i grandi obiettivi in piccole abitudini quotidiane per ottenere risultati."
+    },
+    "buildDiscipline": {
+      "title": "Sviluppa la disciplina",
+      "description": "La coerenza è la chiave del successo. Crea sistemi e raggiungi di più."
+    },
+    "analyzeStats": {
+      "title": "Analizza le statistiche",
+      "description": "L'analittica dettagliata ti aiuterà a comprendere i tuoi punti di forza e di debolezza."
+    }
+  },
+  "faq": {
+    "title": "Domande frequenti",
+    "q1Title": "Posso modificare un'abitudine?",
+    "q1Answer": "Sì, puoi modificare qualsiasi abitudine in qualsiasi momento. Basta fare clic sul pulsante di modifica sulla scheda dell'abitudine.",
+    "q2Title": "Dove vengono salvati i miei dati?",
+    "q2Answer": "Tutti i dati vengono salvati nell'archivio locale del tuo browser. Le tue abitudini e i registri sono accessibili solo a te.",
+    "q3Title": "Come posso rompere un'abitudine negativa?",
+    "q3Answer": "Utilizza lo stesso metodo di tracciamento al contrario — registra i giorni in cui hai evitato l'abitudine negativa."
+  },
+  "cta": {
+    "title": "Inizia a tracciare le abitudini adesso",
+    "subtitle": "Trasforma i tuoi sogni in realtà con il tracciamento coerente",
+    "button": "Crea la prima abitudine"
+  },
+  "modals": {
+    "addHabit": "Aggiungi nuova abitudine",
+    "editHabit": "Modifica abitudine"
+  },
+  "weekdays": {
+    "monday": "Lun",
+    "tuesday": "Mar",
+    "wednesday": "Mer",
+    "thursday": "Gio",
+    "friday": "Ven",
+    "saturday": "Sab",
+    "sunday": "Dom"
+  },
+  "months": {
+    "january": "gennaio",
+    "february": "febbraio",
+    "march": "marzo",
+    "april": "aprile",
+    "may": "maggio",
+    "june": "giugno",
+    "july": "luglio",
+    "august": "agosto",
+    "september": "settembre",
+    "october": "ottobre",
+    "november": "novembre",
+    "december": "dicembre"
+  }
+}
