@@ -40,8 +40,8 @@ const navigateTo = (path: string) => {
       <!-- Desktop Navigation -->
       <nav class="app-header__nav app-header__nav--desktop">
         <a href="/" class="app-header__nav-link">{{ t("nav.habits") }}</a>
-        <a href="/dashboard" class="app-header__nav-link">{{
-          t("nav.dashboard")
+        <a href="/analytics" class="app-header__nav-link">{{
+          t("nav.analytics")
         }}</a>
         <a href="/settings" class="app-header__nav-link">{{
           t("nav.settings")
@@ -79,10 +79,10 @@ const navigateTo = (path: string) => {
         {{ t("nav.habits") }}
       </a>
       <a
-        href="/dashboard"
+        href="/analytics"
         class="app-header__nav-link app-header__nav-link--mobile"
       >
-        {{ t("nav.dashboard") }}
+        {{ t("nav.analytics") }}
       </a>
       <a
         href="/settings"

@@ -76,8 +76,8 @@ const sizeClass = computed(() => `app-logo--${props.size}`);
 }
 
 .app-logo--xl .app-logo__image {
-  width: 80px;
-  height: 80px;
+  width: 280px;
+  height: 280px;
 }
 
 .app-logo--xl .app-logo__text {

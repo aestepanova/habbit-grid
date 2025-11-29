@@ -12,7 +12,9 @@
         />
       </div>
       <div class="hero-image">
-        <div class="placeholder-image">📊</div>
+        <div class="placeholder-image">
+          <AppLogo :size="'xl'" :showText="false" />
+        </div>
       </div>
     </section>
 
@@ -89,6 +91,11 @@
           v-for="habit in habits"
           :key="habit.id"
           :habit="habit"
+          :completion-today="isCompletedToday(habit.id)"
+          :current-streak="getStreak(habit.id)"
+          :best-streak="getBestStreak(habit.id)"
+          :completion-count="getCompletionCount(habit.id)"
+          :logs="getHabitLogs(habit.id)"
           @edit="openEditModal"
           @delete="onDelete"
           @mark-date="onMarkDate"
@@ -191,6 +198,7 @@ import HabitCard from "@/components/habits/HabitCard.vue";
 import HabitForm from "@/components/habits/HabitForm.vue";
 import StatsCard from "@/components/analytics/StatsCard.vue";
 import AppHeader from "@/components/common/AppHeader.vue";
+import AppLogo from "@/components/common/AppLogo.vue";
 
 // Composable для работы с привычками
 const {

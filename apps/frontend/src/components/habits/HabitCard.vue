@@ -1,5 +1,5 @@
 <template>
-  <div :class="['habit-card', { 'habit-card--active': isActive }]">
+  <div :class="['habit-card']">
     <!-- Цветовой индикатор -->
     <div
       class="habit-card__color-indicator"
@@ -16,17 +16,6 @@
             {{ getCategoryLabel(habit.category) }}
           </span>
         </div>
-        <div class="habit-card__status">
-          <span
-            v-if="completionToday"
-            class="habit-card__badge habit-card__badge--done"
-          >
-            ✓
-          </span>
-          <span v-else class="habit-card__badge habit-card__badge--pending">
-            ○
-          </span>
-        </div>
       </div>
 
       <!-- Описание -->
@@ -37,28 +26,47 @@
       <!-- Статистика -->
       <div class="habit-card__stats">
         <div class="stat">
-          <span class="stat__label">Серия:</span>
+          <span class="stat__label">{{ t("habitCard.streak") }}:</span>
           <span class="stat__value">{{ currentStreak }}</span>
         </div>
         <div class="stat">
-          <span class="stat__label">Рекорд:</span>
+          <span class="stat__label">{{ t("habitCard.record") }}:</span>
           <span class="stat__value">{{ bestStreak }}</span>
         </div>
         <div class="stat">
-          <span class="stat__label">Выполнено:</span>
+          <span class="stat__label">{{ t("habitCard.completed") }}:</span>
           <span class="stat__value">{{ completionCount }}</span>
         </div>
       </div>
 
       <!-- Прогресс за месяц (миниатюра) -->
       <div class="habit-card__progress">
-        <div
-          v-for="day in 30"
-          :key="day"
-          :class="[
-            'progress-day',
-            { 'progress-day--done': isDayCompleted(day) },
-          ]"
+        <div class="progress-header">
+          <span class="progress-title">{{ t("habitCard.monthProgress") }}</span>
+          <div class="progress-header-right">
+            <span class="progress-count">{{ monthCompletionCount }}/30</span>
+            <button
+              class="expand-stats-btn"
+              :class="{ 'expand-stats-btn--active': showDetailedStats }"
+              @click="toggleDetailedStats"
+              :aria-label="
+                showDetailedStats
+                  ? t('habitCard.hideStats')
+                  : t('habitCard.showStats')
+              "
+            >
+              {{ showDetailedStats ? "▼" : "▶" }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Statistics with StreakDisplay -->
+      <div v-if="showDetailedStats" class="habit-card__detailed-stats">
+        <StreakDisplay
+          :logs="logs"
+          :base-color="habit.color"
+          :title="t('habitCard.detailedActivity')"
         />
       </div>
     </div>
@@ -100,12 +108,15 @@
 
 <script lang="ts" setup>
 import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import type {
   Habit,
   HabitLog,
-  UserStats,
 } from "../../../../../packages/shared-types/habit.ts";
 import DatePickerModal from "@/components/dates/DatePickerModal.vue";
+import StreakDisplay from "@/components/analytics/StreakDisplay.vue";
+
+const { t } = useI18n();
 
 interface Props {
   habit: Habit;
@@ -130,8 +141,31 @@ const emit = defineEmits<{
   markDate: [habitId: string, date: string, completed: boolean];
 }>();
 
-const isActive = computed(() => props.completionToday);
 const isDatePickerOpen = ref(false);
+const showDetailedStats = ref(false);
+
+/**
+ * Toggle detailed statistics view
+ */
+const toggleDetailedStats = () => {
+  showDetailedStats.value = !showDetailedStats.value;
+};
+
+/**
+ * Computed property: Month completion count
+ * Counts how many days in the last 30 days the habit was completed
+ */
+const monthCompletionCount = computed(() => {
+  if (!props.logs || props.logs.length === 0) return 0;
+
+  let count = 0;
+  for (let i = 1; i <= 30; i++) {
+    if (isDayCompleted(i)) {
+      count++;
+    }
+  }
+  return count;
+});
 
 const openDatePicker = () => {
   isDatePickerOpen.value = true;
@@ -145,20 +179,19 @@ const handleMarkIncompleted = (habitId: string, date: string) => {
   emit("markDate", habitId, date, false);
 };
 
-const categoryLabels: Record<string, string> = {
-  health: "🏃 Здоровье",
-  productivity: "⚡ Продуктивность",
-  learning: "📚 Обучение",
-  creativity: "🎨 Творчество",
-  personal: "🌱 Личное развитие",
-};
-
 const getCategoryLabel = (category: string | undefined): string => {
-  return category ? categoryLabels[category] || category : "";
+  if (!category) return "";
+
+  const categoryKey = `habitForm.category${category.charAt(0).toUpperCase() + category.slice(1)}`;
+  return t(categoryKey);
 };
 
+/**
+ * Check if habit was completed on a specific day
+ * @param day - Day offset from 1 to 30 (1 = 30 days ago, 30 = today)
+ * @returns true if habit was completed on that day
+ */
 const isDayCompleted = (day: number): boolean => {
-  // Проверяем, выполнена ли привычка в день X последних 30 дней
   if (!props.logs || props.logs.length === 0) return false;
 
   const targetDate = new Date();
@@ -186,7 +219,7 @@ const handleDelete = () => {
   display: flex;
   gap: 16px;
   padding: 16px;
-  background: var(--color-card);
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: 12px;
   transition: all 0.2s ease;
@@ -195,15 +228,6 @@ const handleDelete = () => {
 .habit-card:hover {
   box-shadow: var(--color-shadow);
   border-color: var(--color-primary);
-}
-
-.habit-card--active {
-  border-color: var(--color-primary);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 102, 0, 0.05),
-    rgba(255, 102, 0, 0.02)
-  );
 }
 
 /* Цветовой индикатор */
@@ -240,13 +264,13 @@ const handleDelete = () => {
   margin: 0;
   font-size: 16px;
   font-weight: 700;
-  color: var(--color-text-main);
+  color: var(--color-text-primary);
 }
 
 .habit-card__category {
   font-size: 11px;
-  background: var(--color-card-secondary);
-  color: var(--color-text-main);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
   padding: 2px 8px;
   border-radius: 12px;
   white-space: nowrap;
@@ -277,8 +301,8 @@ const handleDelete = () => {
 }
 
 .habit-card__badge--pending {
-  background: var(--color-card-secondary);
-  color: var(--color-muted);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-muted);
   border: 2px solid var(--color-border);
 
   &:hover {
@@ -291,7 +315,7 @@ const handleDelete = () => {
 .habit-card__description {
   margin: 0;
   font-size: 12px;
-  color: var(--color-muted);
+  color: var(--color-text-muted);
   line-height: 1.4;
 }
 
@@ -311,7 +335,7 @@ const handleDelete = () => {
 
 .stat__label {
   font-size: 11px;
-  color: var(--color-muted);
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -319,11 +343,74 @@ const handleDelete = () => {
 .stat__value {
   font-size: 16px;
   font-weight: 700;
-  color: var(--color-text-main);
+  color: var(--color-text-primary);
 }
 
 /* Прогресс за месяц */
 .habit-card__progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-title {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.progress-count {
+  font-size: 12px;
+  color: var(--color-text-primary);
+  font-weight: 700;
+}
+
+.expand-stats-btn {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: 10px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  &:hover {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    transform: scale(1.05);
+  }
+
+  &--active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+}
+
+.progress-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   gap: 4px;
@@ -331,20 +418,50 @@ const handleDelete = () => {
 
 .progress-day {
   aspect-ratio: 1;
-  background: var(--color-card-secondary);
-  border-radius: 4px;
+  background: var(--color-bg-secondary);
+  border-radius: 3px;
   border: 1px solid var(--color-border);
   transition: all 0.2s ease;
   cursor: pointer;
 
   &:hover {
     border-color: var(--color-primary);
-    transform: scale(1.1);
+    transform: scale(1.15);
+    z-index: 1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
 
   &--done {
     background: var(--color-primary);
     border-color: var(--color-primary);
+
+    &:hover {
+      background: var(--color-primary);
+      filter: brightness(1.1);
+    }
+  }
+}
+
+/* Detailed Statistics */
+.habit-card__detailed-stats {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--color-bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 1000px;
   }
 }
 
@@ -361,8 +478,8 @@ const handleDelete = () => {
   height: 32px;
   border: none;
   border-radius: 6px;
-  background: var(--color-card-secondary);
-  color: var(--color-text-main);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
@@ -411,13 +528,22 @@ const handleDelete = () => {
     grid-template-columns: 1fr;
   }
 
-  .habit-card__progress {
-    grid-template-columns: repeat(5, 1fr);
+  .progress-grid {
+    grid-template-columns: repeat(6, 1fr);
   }
 
   .habit-card__actions {
     flex-direction: row;
     gap: 6px;
+  }
+
+  .habit-card__detailed-stats {
+    padding: 12px;
+    margin-top: 12px;
+  }
+
+  .progress-header-right {
+    gap: 8px;
   }
 }
 </style>

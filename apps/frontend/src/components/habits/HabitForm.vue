@@ -2,13 +2,15 @@
   <form class="habit-form" @submit.prevent="handleSubmit">
     <!-- Название привычки -->
     <div class="form-group">
-      <label for="habit-name" class="form-label">Название привычки</label>
+      <label for="habit-name" class="form-label">{{
+        t("habitForm.name")
+      }}</label>
       <input
         id="habit-name"
         v-model="formData.name"
         type="text"
         class="form-input"
-        placeholder="Например: Медитация, Чтение..."
+        :placeholder="t('habitForm.namePlaceholder')"
         maxlength="50"
         required
       />
@@ -17,14 +19,14 @@
 
     <!-- Описание -->
     <div class="form-group">
-      <label for="habit-description" class="form-label"
-        >Описание (опционально)</label
-      >
+      <label for="habit-description" class="form-label">{{
+        t("habitForm.description")
+      }}</label>
       <textarea
         id="habit-description"
         v-model="formData.description"
         class="form-textarea"
-        placeholder="Опишите вашу привычку..."
+        :placeholder="t('habitForm.descriptionPlaceholder')"
         maxlength="200"
         rows="3"
       ></textarea>
@@ -46,7 +48,7 @@
           :style="{ backgroundColor: color }"
           @click="formData.color = color"
           :title="color"
-        />
+        ></button>
       </div>
     </div>
 
@@ -106,6 +108,7 @@
 import { reactive, ref, computed } from "vue";
 import BaseButton from "@/components/common/BaseButton.vue";
 import type { Habit } from "../../../../../packages/shared-types/habit.ts";
+import { useI18n } from "vue-i18n";
 
 interface Props {
   initialHabit?: Habit | null;
@@ -121,6 +124,8 @@ const emit = defineEmits<{
   success: [habit: Habit];
   cancel: [];
 }>();
+
+const { t } = useI18n();
 
 const colorOptions = [
   "#ff6600",
@@ -211,7 +216,7 @@ const handleCancel = () => {
 .form-label {
   font-weight: 600;
   font-size: 14px;
-  color: var(--color-text-main);
+  color: var(--color-text-primary);
 }
 
 /* Input */
@@ -221,8 +226,8 @@ const handleCancel = () => {
   padding: 12px 16px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: var(--color-card);
-  color: var(--color-text-main);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
   font-family: inherit;
   font-size: 14px;
   transition: all 0.2s ease;
@@ -230,11 +235,11 @@ const handleCancel = () => {
   &:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+    box-shadow: var(--color-shadow-glow);
   }
 
   &::placeholder {
-    color: var(--color-muted);
+    color: var(--color-text-muted);
   }
 }
 
@@ -253,7 +258,7 @@ const handleCancel = () => {
 /* Подсказка */
 .form-hint {
   font-size: 12px;
-  color: var(--color-muted);
+  color: var(--color-text-muted);
   text-align: right;
 }
 
@@ -262,6 +267,8 @@ const handleCancel = () => {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(44px, 1fr));
   gap: 8px;
+  justify-items: center;
+  padding-bottom: 12px;
 }
 
 .color-option {
@@ -272,23 +279,33 @@ const handleCancel = () => {
   cursor: pointer;
   transition: all 0.2s ease;
   background-clip: padding-box;
+  position: relative;
 
   &:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   &--active {
-    border-color: var(--color-text-main);
+    border-color: var(--color-text-primary);
     box-shadow:
-      0 0 0 2px var(--color-card),
+      0 0 0 2px var(--color-bg-card),
       0 0 0 4px var(--color-primary);
+    transform: scale(1.15);
+
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 
   &:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
+}
+.color-option--active {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Кнопки действия */

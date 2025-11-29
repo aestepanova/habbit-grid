@@ -1,6 +1,7 @@
 {
   "nav": {
     "habits": "Привычки",
+    "analytics": "Аналитика",
     "dashboard": "Панель",
     "settings": "Настройки"
   },
@@ -25,14 +26,20 @@
     "completed": "Выполнено",
     "edit": "Редактировать",
     "delete": "Удалить",
-    "markDate": "Отметить за день"
+    "markDate": "Отметить за день",
+    "monthProgress": "Прогресс за месяц",
+    "completedOn": "Выполнено",
+    "notCompletedOn": "Не выполнено",
+    "showStats": "Показать детальную статистику",
+    "hideStats": "Скрыть детальную статистику",
+    "detailedActivity": "Детальная активность"
   },
   "habitForm": {
     "addTitle": "Добавить новую привычку",
     "editTitle": "Редактировать привычку",
     "name": "Название привычки",
     "namePlaceholder": "Например: Медитация, Чтение...",
-    "description": "Описание",
+    "description": "Описание (опционально)",
     "descriptionPlaceholder": "Опишите вашу привычку...",
     "color": "Цвет привычки",
     "frequency": "Частота выполнения",
@@ -129,5 +136,82 @@
     "october": "октябрь",
     "november": "ноябрь",
     "december": "декабрь"
+  },
+  "streakDisplay": {
+    "title": "Активность выполнения привычек",
+    "periods": {
+      "week": "Неделя",
+      "month": "Месяц",
+      "halfYear": "Полгода",
+      "year": "Год"
+    },
+    "stats": {
+      "currentStreak": "Текущая серия:",
+      "longestStreak": "Лучшая серия:",
+      "totalCompletions": "Всего выполнено:"
+    },
+    "legend": {
+      "less": "Меньше",
+      "more": "Больше"
+    },
+    "tooltip": {
+      "noActivity": "Нет активности",
+      "completions": {
+        "one": "выполнение",
+        "few": "выполнения",
+        "many": "выполнений"
+      }
+    },
+    "days": {
+      "one": "день",
+      "few": "дня",
+      "many": "дней"
+    }
+  },
+  "analytics": {
+    "pageTitle": "Аналитика",
+    "pageSubtitle": "Полная статистика выполнения ваших привычек за разные периоды времени",
+    "loading": "Загрузка данных...",
+    "selectHabit": "Выберите привычку",
+    "allHabits": "Все привычки",
+    "allHabitsActivity": "Активность всех привычек",
+    "activityTitle": "Активность",
+    "noData": "Нет данных",
+    "noDataDescription": "Начните отмечать выполнение привычек, чтобы увидеть статистику активности",
+    "stats": {
+      "totalHabits": "Всего привычек",
+      "totalLogs": "Всего выполнений",
+      "completionRate": "Процент выполнения"
+    }
+  },
+  "footer": {
+    "tagline": "Простой и мощный инструмент для отслеживания привычек",
+    "navigation": {
+      "title": "Навигация",
+      "habits": "Привычки",
+      "analytics": "Аналитика",
+      "settings": "Настройки"
+    },
+    "resources": {
+      "title": "Ресурсы",
+      "documentation": "Документация",
+      "blog": "Блог",
+      "support": "Поддержка",
+      "changelog": "История изменений"
+    },
+    "social": {
+      "title": "Социальные сети",
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "discord": "Discord"
+    },
+    "legal": {
+      "title": "Правовая информация",
+      "privacy": "Политика конфиденциальности",
+      "terms": "Условия использования",
+      "cookies": "Файлы cookie"
+    },
+    "copyright": "© 2024 HabitGrid. Все права защищены.",
+    "madeWith": "Создано с ❤️ для лучшего вас"
   }
 }

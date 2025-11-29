@@ -1,6 +1,7 @@
 {
   "nav": {
     "habits": "Habits",
+    "analytics": "Analytics",
     "dashboard": "Dashboard",
     "settings": "Settings"
   },
@@ -25,14 +26,20 @@
     "completed": "Completed",
     "edit": "Edit",
     "delete": "Delete",
-    "markDate": "Mark for date"
+    "markDate": "Mark for date",
+    "monthProgress": "Month progress",
+    "completedOn": "Completed",
+    "notCompletedOn": "Not completed",
+    "showStats": "Show detailed statistics",
+    "hideStats": "Hide detailed statistics",
+    "detailedActivity": "Detailed Activity"
   },
   "habitForm": {
     "addTitle": "Add new habit",
     "editTitle": "Edit habit",
     "name": "Habit name",
     "namePlaceholder": "e.g., Meditation, Reading...",
-    "description": "Description",
+    "description": "Description (optional)",
     "descriptionPlaceholder": "Describe your habit...",
     "color": "Habit color",
     "frequency": "Frequency",
@@ -129,5 +136,80 @@
     "october": "October",
     "november": "November",
     "december": "December"
+  },
+  "streakDisplay": {
+    "title": "Habit Completion Activity",
+    "periods": {
+      "week": "Week",
+      "month": "Month",
+      "halfYear": "Half Year",
+      "year": "Year"
+    },
+    "stats": {
+      "currentStreak": "Current streak:",
+      "longestStreak": "Longest streak:",
+      "totalCompletions": "Total completed:"
+    },
+    "legend": {
+      "less": "Less",
+      "more": "More"
+    },
+    "tooltip": {
+      "noActivity": "No activity",
+      "completions": {
+        "one": "completion",
+        "other": "completions"
+      }
+    },
+    "days": {
+      "one": "day",
+      "other": "days"
+    }
+  },
+  "analytics": {
+    "pageTitle": "Analytics",
+    "pageSubtitle": "Complete statistics of your habit completion across different time periods",
+    "loading": "Loading data...",
+    "selectHabit": "Select habit",
+    "allHabits": "All habits",
+    "allHabitsActivity": "All Habits Activity",
+    "activityTitle": "Activity",
+    "noData": "No data",
+    "noDataDescription": "Start marking your habit completions to see activity statistics",
+    "stats": {
+      "totalHabits": "Total habits",
+      "totalLogs": "Total completions",
+      "completionRate": "Completion rate"
+    }
+  },
+  "footer": {
+    "tagline": "Simple and powerful habit tracking tool",
+    "navigation": {
+      "title": "Navigation",
+      "habits": "Habits",
+      "analytics": "Analytics",
+      "settings": "Settings"
+    },
+    "resources": {
+      "title": "Resources",
+      "documentation": "Documentation",
+      "blog": "Blog",
+      "support": "Support",
+      "changelog": "Changelog"
+    },
+    "social": {
+      "title": "Social",
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "discord": "Discord"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy"
+    },
+    "copyright": "© 2024 HabitGrid. All rights reserved.",
+    "madeWith": "Made with ❤️ for a better you"
   }
 }

@@ -1,6 +1,7 @@
 {
   "nav": {
     "habits": "Abitudini",
+    "analytics": "Analisi",
     "dashboard": "Dashboard",
     "settings": "Impostazioni"
   },
@@ -25,7 +26,13 @@
     "completed": "Completato",
     "edit": "Modifica",
     "delete": "Elimina",
-    "markDate": "Segna per data"
+    "markDate": "Segna per data",
+    "monthProgress": "Progresso del mese",
+    "completedOn": "Completato",
+    "notCompletedOn": "Non completato",
+    "showStats": "Mostra statistiche dettagliate",
+    "hideStats": "Nascondi statistiche dettagliate",
+    "detailedActivity": "Attività dettagliata"
   },
   "habitForm": {
     "addTitle": "Aggiungi nuova abitudine",
@@ -129,5 +136,80 @@
     "october": "ottobre",
     "november": "novembre",
     "december": "dicembre"
+  },
+  "streakDisplay": {
+    "title": "Attività di completamento delle abitudini",
+    "periods": {
+      "week": "Settimana",
+      "month": "Mese",
+      "halfYear": "Semestre",
+      "year": "Anno"
+    },
+    "stats": {
+      "currentStreak": "Serie attuale:",
+      "longestStreak": "Serie migliore:",
+      "totalCompletions": "Totale completati:"
+    },
+    "legend": {
+      "less": "Meno",
+      "more": "Più"
+    },
+    "tooltip": {
+      "noActivity": "Nessuna attività",
+      "completions": {
+        "one": "completamento",
+        "other": "completamenti"
+      }
+    },
+    "days": {
+      "one": "giorno",
+      "other": "giorni"
+    }
+  },
+  "analytics": {
+    "pageTitle": "Analisi",
+    "pageSubtitle": "Statistiche complete del completamento delle tue abitudini in diversi periodi di tempo",
+    "loading": "Caricamento dati...",
+    "selectHabit": "Seleziona abitudine",
+    "allHabits": "Tutte le abitudini",
+    "allHabitsActivity": "Attività di tutte le abitudini",
+    "activityTitle": "Attività",
+    "noData": "Nessun dato",
+    "noDataDescription": "Inizia a segnare i completamenti delle abitudini per vedere le statistiche di attività",
+    "stats": {
+      "totalHabits": "Totale abitudini",
+      "totalLogs": "Totale completamenti",
+      "completionRate": "Tasso di completamento"
+    }
+  },
+  "footer": {
+    "tagline": "Strumento semplice e potente per tracciare le abitudini",
+    "navigation": {
+      "title": "Navigazione",
+      "habits": "Abitudini",
+      "analytics": "Analisi",
+      "settings": "Impostazioni"
+    },
+    "resources": {
+      "title": "Risorse",
+      "documentation": "Documentazione",
+      "blog": "Blog",
+      "support": "Supporto",
+      "changelog": "Registro modifiche"
+    },
+    "social": {
+      "title": "Social",
+      "github": "GitHub",
+      "twitter": "Twitter",
+      "discord": "Discord"
+    },
+    "legal": {
+      "title": "Legale",
+      "privacy": "Informativa sulla privacy",
+      "terms": "Termini di servizio",
+      "cookies": "Policy sui cookie"
+    },
+    "copyright": "© 2024 HabitGrid. Tutti i diritti riservati.",
+    "madeWith": "Creato con ❤️ per un te migliore"
   }
 }
