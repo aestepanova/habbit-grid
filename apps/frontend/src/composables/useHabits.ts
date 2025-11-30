@@ -5,10 +5,10 @@ import type {
 } from "../../../../packages/shared-types/habit.ts";
 import { habitStorageService as habitStorage } from "@/services/habitStorage";
 
-interface UseHabitsReturn {
+/*interface UseHabitsReturn {
   habits: ReturnType<typeof ref<Habit[]>>;
-  /*  dailyHabits: ComputedRef<Habit[]>;
-  completionRate: ComputedRef<number>;*/
+  /!*  dailyHabits: ComputedRef<Habit[]>;
+  completionRate: ComputedRef<number>;*!/
   loading: ReturnType<typeof ref<boolean>>;
   error: ReturnType<typeof ref<string | null>>;
   addHabit: (habit: Omit<Habit, "id" | "createdAt">) => Promise<void>;
@@ -30,9 +30,9 @@ interface UseHabitsReturn {
   loadHabits: () => Promise<void>;
   reloadHabits: () => Promise<void>;
   onMounted: typeof onMounted;
-}
+}*/
 
-export function useHabits(): UseHabitsReturn {
+export function useHabits() {
   const habits = ref<Habit[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
