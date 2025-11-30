@@ -75,7 +75,7 @@
         @click.stop
       >
         <StreakDisplay
-          :logs="logs"
+          :logs="activeLogs"
           :base-color="habit.color"
           :title="t('habitCard.detailedActivity')"
           :habit-id="habit.id"
@@ -129,6 +129,7 @@ import type {
 } from "../../../../../packages/shared-types/habit.ts";
 import DatePickerModal from "@/components/dates/DatePickerModal.vue";
 import StreakDisplay from "@/components/analytics/StreakDisplay.vue";
+import { habitStorageService } from "@/services/habitStorage";
 import HealthEmoji from "@/assets/emojis/category-health.svg";
 import LearningEmoji from "@/assets/emojis/category-learning.svg";
 import CreativityEmoji from "@/assets/emojis/category-creativity.svg";
@@ -163,6 +164,18 @@ const emit = defineEmits<{
 const isDatePickerOpen = ref(false);
 const showDetailedStats = ref(false);
 
+// Реактивные логи - всегда загружаем напрямую из storage
+const activeLogs = ref<HabitLog[]>([]);
+
+// Загрузка логов
+const loadLogs = () => {
+  const logs = habitStorageService.getHabitLogs(props.habit.id);
+  activeLogs.value = logs;
+};
+
+// Инициализация логов при монтировании
+loadLogs();
+
 /**
  * Toggle detailed statistics view
  */
@@ -175,7 +188,7 @@ const toggleDetailedStats = () => {
  * Counts how many days in the last 30 days the habit was completed
  */
 const monthCompletionCount = computed(() => {
-  if (!props.logs || props.logs.length === 0) return 0;
+  if (!activeLogs.value || activeLogs.value.length === 0) return 0;
 
   let count = 0;
   for (let i = 1; i <= 30; i++) {
@@ -198,8 +211,13 @@ const handleMarkIncompleted = (habitId: string, date: string) => {
   emit("markDate", habitId, date, false);
 };
 
-const handleMarkDate = (habitId: string, date: string, completed: boolean) => {
+const handleMarkDate = async (habitId: string, date: string, completed: boolean) => {
   emit("markDate", habitId, date, completed);
+  // Даем время на сохранение, затем перезагружаем логи
+  setTimeout(() => {
+    loadLogs();
+  }, 300);
+  // Не закрываем детальную статистику - пользователь может продолжить отмечать дни
 };
 
 const handleDayClick = (): void => {
@@ -237,13 +255,13 @@ const getCategoryEmojiSrc = (category: string | undefined): string => {
  * @returns true if habit was completed on that day
  */
 const isDayCompleted = (day: number): boolean => {
-  if (!props.logs || props.logs.length === 0) return false;
+  if (!activeLogs.value || activeLogs.value.length === 0) return false;
 
   const targetDate = new Date();
   targetDate.setDate(targetDate.getDate() - (30 - day));
   const dateStr = targetDate.toISOString().split("T")[0];
 
-  return props.logs.some((log) => log.date === dateStr && log.completed);
+  return activeLogs.value.some((log) => log.date === dateStr && log.completed);
 };
 
 const handleEdit = () => {

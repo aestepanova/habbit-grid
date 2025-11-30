@@ -385,9 +385,9 @@ const onDelete = (habitId: string) => {
   }
 };
 
-const onMarkDate = (habitId: string, date: string, completed: boolean) => {
-  markHabitDate(habitId, date, completed);
-  reloadHabits();
+const onMarkDate = async (habitId: string, date: string, completed: boolean) => {
+  await markHabitDate(habitId, date, completed);
+  // HabitCard сам обновит свои логи внутри
 };
 
 const handleReloadHabits = () => {

@@ -12,10 +12,15 @@ import { ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useHabits } from "../composables/useHabits";
 import { habitStorageService } from "../services/habitStorage";
-import type { HabitLog } from "../../../../packages/shared-types/habit.ts";
+import type { Habit, HabitLog } from "../../../../packages/shared-types/habit.ts";
+import BaseModal from "@/components/common/BaseModal.vue";
+import HabitForm from "@/components/habits/HabitForm.vue";
 
 const { t, locale } = useI18n();
-const { habits, markHabitDate } = useHabits();
+const { habits, markHabitDate, addHabit } = useHabits();
+
+// Modal state
+const isAddModalOpen = ref(false);
 
 // Current month being displayed
 const currentDate = ref(new Date());
@@ -129,6 +134,21 @@ const isToday = (date: Date): boolean => {
   );
 };
 
+/**
+ * Open modal to add new habit
+ */
+const openAddModal = () => {
+  isAddModalOpen.value = true;
+};
+
+/**
+ * Handle adding new habit
+ */
+const onAddHabit = async (habitData: Habit) => {
+  await addHabit(habitData);
+  isAddModalOpen.value = false;
+};
+
 // Initialize logs on component mount
 loadLogs();
 </script>
@@ -155,6 +175,9 @@ loadLogs();
         </button>
         <button class="today-button" @click="goToCurrentMonth">
           {{ t("table.today") }}
+        </button>
+        <button class="add-habit-button" @click="openAddModal">
+          + {{ t("habits.addNew") }}
         </button>
       </div>
     </div>
@@ -234,6 +257,15 @@ loadLogs();
         </div>
       </div>
     </div>
+
+    <!-- Add Habit Modal -->
+    <BaseModal
+      :title="t('modals.addHabit')"
+      :is-open="isAddModalOpen"
+      @close="isAddModalOpen = false"
+    >
+      <HabitForm @success="onAddHabit" @cancel="isAddModalOpen = false" />
+    </BaseModal>
   </div>
 </template>
 
@@ -303,6 +335,26 @@ loadLogs();
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: white;
+}
+
+.add-habit-button {
+  padding: 8px 16px;
+  border: 2px solid var(--color-primary);
+  background: var(--color-primary);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.add-habit-button:hover {
+  background: var(--color-primary-dark, #2563eb);
+  border-color: var(--color-primary-dark, #2563eb);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
 }
 
 /* Table container */
@@ -519,13 +571,13 @@ loadLogs();
   }
 
   .day-header {
-    width: 50px;
+    width: 60px;
     height: 80px;
   }
 
   .completion-cell {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
   }
 
   .habit-name__text {

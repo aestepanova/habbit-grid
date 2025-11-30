@@ -173,7 +173,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card stat-card--wide">
           <div class="stat-card__icon">
             <img :src="CompletionRateEmoji" alt="Completion Rate" />
           </div>
@@ -348,6 +348,24 @@ onMounted(() => {
   margin-top: 8px;
 }
 
+/* Третья карточка растягивается, если есть место для всех трех в ряд,
+   или занимает всю ширину, если карточки переносятся */
+@media (max-width: 850px) {
+  .stats-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .stat-card--wide {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 851px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .stat-card {
   display: flex;
   align-items: center;
@@ -414,10 +432,6 @@ onMounted(() => {
 
   .analytics-view__subtitle {
     font-size: 14px;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
   }
 
   .habit-selector {

@@ -35,7 +35,7 @@
 
     <!-- Выбор цвета -->
     <div class="form-group">
-      <label class="form-label">Цвет привычки</label>
+      <label class="form-label">{{ t("habitForm.color") }}</label>
       <div class="color-picker">
         <button
           v-for="color in colorOptions"
@@ -54,34 +54,40 @@
 
     <!-- Частота выполнения -->
     <div class="form-group">
-      <label for="habit-frequency" class="form-label">Частота выполнения</label>
+      <label for="habit-frequency" class="form-label">{{
+        t("habitForm.frequency")
+      }}</label>
       <select
         id="habit-frequency"
         v-model="formData.frequency"
         class="form-select"
       >
-        <option value="daily">Ежедневно</option>
-        <option value="weekly">Еженедельно</option>
-        <option value="monthly">Ежемесячно</option>
+        <option value="daily">{{ t("habitForm.frequencyDaily") }}</option>
+        <option value="weekly">{{ t("habitForm.frequencyWeekly") }}</option>
+        <option value="monthly">{{ t("habitForm.frequencyMonthly") }}</option>
       </select>
     </div>
 
     <!-- Категория (опционально) -->
     <div class="form-group">
-      <label for="habit-category" class="form-label"
-        >Категория (опционально)</label
-      >
+      <label for="habit-category" class="form-label">{{
+        t("habitForm.category")
+      }}</label>
       <select
         id="habit-category"
         v-model="formData.category"
         class="form-select"
       >
-        <option value="">Выберите категорию</option>
-        <option value="health">Здоровье</option>
-        <option value="productivity">Продуктивность</option>
-        <option value="learning">Обучение</option>
-        <option value="creativity">Творчество</option>
-        <option value="personal">Личное развитие</option>
+        <option value="">{{ t("habitForm.categoryPlaceholder") }}</option>
+        <option value="health">{{ t("habitForm.categoryHealth") }}</option>
+        <option value="productivity">
+          {{ t("habitForm.categoryProductivity") }}
+        </option>
+        <option value="learning">{{ t("habitForm.categoryLearning") }}</option>
+        <option value="creativity">
+          {{ t("habitForm.categoryCreativity") }}
+        </option>
+        <option value="personal">{{ t("habitForm.categoryPersonal") }}</option>
       </select>
     </div>
 
@@ -90,13 +96,14 @@
       <BaseButton
         variant="secondary"
         size="medium"
-        label="Отмена"
+        label="t('habitForm.cancel')"
         @click="handleCancel"
       />
       <BaseButton
         variant="primary"
         size="medium"
-        :label="isEditing ? 'Сохранить изменения' : 'Добавить'"
+        :label="isEditing ? t('habitForm.saveChanges') : t('habitForm.save')"
+        )
         type="submit"
         :loading="isSubmitting"
       />
