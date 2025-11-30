@@ -24,27 +24,27 @@
         <StatsCard
           :title="t('stats.activeHabits')"
           :value="habits.length"
-          icon-src="/src/assets/emojis/Active Habits Emoji.svg"
+          :icon-src="ActiveHabitsEmoji"
           variant="primary"
         />
         <StatsCard
           :title="t('stats.completedThisMonth')"
           :value="totalCompleted"
-          icon-src="/src/assets/emojis/Emoji Completed Month.svg"
+          :icon-src="CompletedMonthEmoji"
           variant="success"
         />
         <StatsCard
           :title="t('stats.bestStreak')"
           :value="bestStreak"
           :unit="t('streakDisplay.days.other')"
-          icon-src="/src/assets/emojis/Best Streak Emoji.svg"
+          :icon-src="BestStreakEmoji"
           variant="warning"
         />
         <StatsCard
           :title="t('stats.completionRate')"
           :value="completionPercentage"
           unit="%"
-          icon-src="/src/assets/emojis/Emoji Completion Rate.svg"
+          :icon-src="CompletionRateEmoji"
           variant="primary"
         />
       </div>
@@ -199,6 +199,10 @@ import HabitForm from "@/components/habits/HabitForm.vue";
 import StatsCard from "@/components/analytics/StatsCard.vue";
 import AppHeader from "@/components/common/AppHeader.vue";
 import AppLogo from "@/components/common/AppLogo.vue";
+import ActiveHabitsEmoji from "@/assets/emojis/Active Habits Emoji.svg";
+import CompletedMonthEmoji from "@/assets/emojis/Emoji Completed Month.svg";
+import BestStreakEmoji from "@/assets/emojis/Best Streak Emoji.svg";
+import CompletionRateEmoji from "@/assets/emojis/Emoji Completion Rate.svg";
 
 // Composable для работы с привычками
 const {
