@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted } from "vue";
+import { computed, onMounted, onUnmounted, watch } from "vue";
 
 interface Props {
   title?: string;
@@ -98,10 +98,6 @@ watch(isOpen, (newValue) => {
     document.body.style.overflow = "auto";
   }
 });
-</script>
-
-<script lang="ts">
-import { watch } from "vue";
 </script>
 
 <style scoped>

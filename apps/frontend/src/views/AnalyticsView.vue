@@ -7,6 +7,8 @@
 import { ref, computed, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import StreakDisplay from "../components/analytics/StreakDisplay.vue";
+import CustomSelect from "@/components/common/CustomSelect.vue";
+import type { SelectOption } from "@/components/common/CustomSelect.vue";
 import { habitStorageService } from "../services/habitStorage";
 import type {
   Habit,
@@ -66,6 +68,25 @@ const displayTitle = computed(() => {
 });
 
 /**
+ * Computed property: Habit options for select
+ * Generates options array with "All habits" option and individual habits with colors
+ */
+const habitOptions = computed<SelectOption[]>(() => {
+  const allOption: SelectOption = {
+    value: "all",
+    label: t("analytics.allHabits"),
+  };
+
+  const habitOptionsList: SelectOption[] = habits.value.map((habit) => ({
+    value: habit.id,
+    label: habit.name,
+    // Можно добавить иконку с цветом привычки, но пока просто название
+  }));
+
+  return [allOption, ...habitOptionsList];
+});
+
+/**
  * Load habits and logs from storage
  */
 const loadData = async () => {
@@ -116,12 +137,13 @@ onMounted(() => {
         <label class="habit-selector__label">{{
           t("analytics.selectHabit")
         }}</label>
-        <select v-model="selectedHabitId" class="habit-selector__select">
-          <option value="all">{{ t("analytics.allHabits") }}</option>
-          <option v-for="habit in habits" :key="habit.id" :value="habit.id">
-            {{ habit.name }}
-          </option>
-        </select>
+        <CustomSelect
+          v-model="selectedHabitId"
+          :options="habitOptions"
+          :placeholder="t('analytics.selectHabit')"
+          :search-placeholder="t('analytics.searchHabit')"
+          :no-results-text="t('analytics.noHabitsFound')"
+        />
       </div>
 
       <!-- Streak display component -->
@@ -274,27 +296,6 @@ onMounted(() => {
   color: var(--color-text-primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-.habit-selector__select {
-  padding: 12px 16px;
-  font-size: 16px;
-  color: var(--color-text-primary);
-  background: var(--color-bg-secondary);
-  border: 2px solid var(--color-border);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    border-color: var(--color-primary);
-  }
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
 }
 
 /* Empty state */

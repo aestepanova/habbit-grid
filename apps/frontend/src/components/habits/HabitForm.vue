@@ -54,57 +54,42 @@
 
     <!-- Частота выполнения -->
     <div class="form-group">
-      <label for="habit-frequency" class="form-label">{{
-        t("habitForm.frequency")
-      }}</label>
-      <select
-        id="habit-frequency"
+      <label class="form-label">{{ t("habitForm.frequency") }}</label>
+      <CustomSelect
         v-model="formData.frequency"
-        class="form-select"
-      >
-        <option value="daily">{{ t("habitForm.frequencyDaily") }}</option>
-        <option value="weekly">{{ t("habitForm.frequencyWeekly") }}</option>
-        <option value="monthly">{{ t("habitForm.frequencyMonthly") }}</option>
-      </select>
+        :options="frequencyOptions"
+        :placeholder="t('habitForm.frequencyPlaceholder')"
+        :search-placeholder="t('habitForm.frequencySearchPlaceholder')"
+        :no-results-text="t('habitForm.noResults')"
+      />
     </div>
 
     <!-- Категория (опционально) -->
     <div class="form-group">
-      <label for="habit-category" class="form-label">{{
-        t("habitForm.category")
-      }}</label>
-      <select
-        id="habit-category"
+      <label class="form-label">{{ t("habitForm.category") }}</label>
+      <CustomSelect
         v-model="formData.category"
-        class="form-select"
-      >
-        <option value="">{{ t("habitForm.categoryPlaceholder") }}</option>
-        <option value="health">{{ t("habitForm.categoryHealth") }}</option>
-        <option value="productivity">
-          {{ t("habitForm.categoryProductivity") }}
-        </option>
-        <option value="learning">{{ t("habitForm.categoryLearning") }}</option>
-        <option value="creativity">
-          {{ t("habitForm.categoryCreativity") }}
-        </option>
-        <option value="personal">{{ t("habitForm.categoryPersonal") }}</option>
-      </select>
+        :options="categoryOptions"
+        :placeholder="t('habitForm.categoryPlaceholder')"
+        :search-placeholder="t('habitForm.categorySearchPlaceholder')"
+        :no-results-text="t('habitForm.noResults')"
+      />
     </div>
 
     <!-- Кнопки действия -->
     <div class="form-actions">
       <BaseButton
+        type="button"
         variant="secondary"
         size="medium"
-        label="t('habitForm.cancel')"
+        :label="t('habitForm.cancel')"
         @click="handleCancel"
       />
       <BaseButton
+        type="submit"
         variant="primary"
         size="medium"
         :label="isEditing ? t('habitForm.saveChanges') : t('habitForm.save')"
-        )
-        type="submit"
         :loading="isSubmitting"
       />
     </div>
@@ -114,8 +99,15 @@
 <script lang="ts" setup>
 import { reactive, ref, computed } from "vue";
 import BaseButton from "@/components/common/BaseButton.vue";
+import CustomSelect from "@/components/common/CustomSelect.vue";
+import type { SelectOption } from "@/components/common/CustomSelect.vue";
 import type { Habit } from "../../../../../packages/shared-types/habit.ts";
 import { useI18n } from "vue-i18n";
+import HealthEmoji from "@/assets/emojis/category-health.svg";
+import LearningEmoji from "@/assets/emojis/category-learning.svg";
+import CreativityEmoji from "@/assets/emojis/category-creativity.svg";
+import PersonalGrowthEmoji from "@/assets/emojis/category-personal-growth.svg";
+import ProductivityEmoji from "@/assets/emojis/category-productivity.svg";
 
 interface Props {
   initialHabit?: Habit | null;
@@ -138,12 +130,43 @@ const colorOptions = [
   "#ff6600",
   "#ff852b",
   "#ffbc33",
-  "#10b981",
+  "#10b957",
   "#3b82f6",
   "#8b5cf6",
   "#ec4899",
   "#6366f1",
 ];
+
+const frequencyOptions = computed<SelectOption[]>(() => [
+  { value: "daily", label: t("habitForm.frequencyDaily") },
+  { value: "weekly", label: t("habitForm.frequencyWeekly") },
+  { value: "monthly", label: t("habitForm.frequencyMonthly") },
+]);
+
+const categoryOptions = computed<SelectOption[]>(() => [
+  { value: "", label: t("habitForm.categoryPlaceholder") },
+  { value: "health", label: t("habitForm.categoryHealth"), icon: HealthEmoji },
+  {
+    value: "productivity",
+    label: t("habitForm.categoryProductivity"),
+    icon: ProductivityEmoji,
+  },
+  {
+    value: "learning",
+    label: t("habitForm.categoryLearning"),
+    icon: LearningEmoji,
+  },
+  {
+    value: "creativity",
+    label: t("habitForm.categoryCreativity"),
+    icon: CreativityEmoji,
+  },
+  {
+    value: "personal",
+    label: t("habitForm.categoryPersonal"),
+    icon: PersonalGrowthEmoji,
+  },
+]);
 
 const formData = reactive<Habit>({
   createdAt: props.initialHabit?.createdAt || new Date().toISOString(),
@@ -228,7 +251,6 @@ const handleCancel = () => {
 
 /* Input */
 .form-input,
-.form-select,
 .form-textarea {
   padding: 12px 16px;
   border: 1px solid var(--color-border);
@@ -309,10 +331,6 @@ const handleCancel = () => {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
-}
-.color-option--active {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Кнопки действия */
