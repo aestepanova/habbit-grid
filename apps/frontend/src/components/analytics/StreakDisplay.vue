@@ -21,7 +21,7 @@
     </div>
 
     <!-- Interactive mode hint -->
-    <div v-if="habitId" class="streak-display__hint">
+    <div v-if="habitId && habitId !== 'all'" class="streak-display__hint">
       <span class="hint-icon">👆</span>
       <span class="hint-text">{{ t("datePicker.selectDate") }}</span>
     </div>
@@ -755,7 +755,7 @@ const handleCellClick = (day: ActivityDay, event: MouseEvent) => {
 
   /* Week view on mobile */
   .activity-cells--week {
-    grid-template-rows: minmax(32px, 1fr);
+    grid-template-rows: minmax(32px, 0.5fr);
   }
 
   /* Month view on mobile */

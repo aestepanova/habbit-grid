@@ -8,7 +8,10 @@ import { ref, computed, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import StreakDisplay from "../components/analytics/StreakDisplay.vue";
 import { habitStorageService } from "../services/habitStorage";
-import type { Habit, HabitLog } from "../../../../packages/shared-types/habit.ts";
+import type {
+  Habit,
+  HabitLog,
+} from "../../../../packages/shared-types/habit.ts";
 import ActiveHabitsEmoji from "@/assets/emojis/Active Habits Emoji.svg";
 import CompletedMonthEmoji from "@/assets/emojis/Emoji Completed Month.svg";
 import CompletionRateEmoji from "@/assets/emojis/Emoji Completion Rate.svg";
@@ -110,17 +113,12 @@ onMounted(() => {
     <div v-else class="analytics-view__content">
       <!-- Habit filter selector -->
       <div class="habit-selector">
-        <label class="habit-selector__label">{{ t("analytics.selectHabit") }}</label>
-        <select
-          v-model="selectedHabitId"
-          class="habit-selector__select"
-        >
+        <label class="habit-selector__label">{{
+          t("analytics.selectHabit")
+        }}</label>
+        <select v-model="selectedHabitId" class="habit-selector__select">
           <option value="all">{{ t("analytics.allHabits") }}</option>
-          <option
-            v-for="habit in habits"
-            :key="habit.id"
-            :value="habit.id"
-          >
+          <option v-for="habit in habits" :key="habit.id" :value="habit.id">
             {{ habit.name }}
           </option>
         </select>
@@ -132,6 +130,7 @@ onMounted(() => {
         :logs="filteredLogs"
         :base-color="displayColor"
         :title="displayTitle"
+        :habit-id="selectedHabitId"
         @day-click="handleDayClick"
       />
 
@@ -155,7 +154,9 @@ onMounted(() => {
             <img :src="ActiveHabitsEmoji" alt="Total Habits" />
           </div>
           <div class="stat-card__content">
-            <p class="stat-card__label">{{ t("analytics.stats.totalHabits") }}</p>
+            <p class="stat-card__label">
+              {{ t("analytics.stats.totalHabits") }}
+            </p>
             <p class="stat-card__value">{{ habits.length }}</p>
           </div>
         </div>
@@ -166,7 +167,9 @@ onMounted(() => {
           </div>
           <div class="stat-card__content">
             <p class="stat-card__label">{{ t("analytics.stats.totalLogs") }}</p>
-            <p class="stat-card__value">{{ filteredLogs.filter(log => log.completed).length }}</p>
+            <p class="stat-card__value">
+              {{ filteredLogs.filter((log) => log.completed).length }}
+            </p>
           </div>
         </div>
 
@@ -175,14 +178,16 @@ onMounted(() => {
             <img :src="CompletionRateEmoji" alt="Completion Rate" />
           </div>
           <div class="stat-card__content">
-            <p class="stat-card__label">{{ t("analytics.stats.completionRate") }}</p>
+            <p class="stat-card__label">
+              {{ t("analytics.stats.completionRate") }}
+            </p>
             <p class="stat-card__value">
               {{
                 filteredLogs.length > 0
                   ? Math.round(
-                      (filteredLogs.filter(log => log.completed).length /
+                      (filteredLogs.filter((log) => log.completed).length /
                         filteredLogs.length) *
-                        100
+                        100,
                     )
                   : 0
               }}%

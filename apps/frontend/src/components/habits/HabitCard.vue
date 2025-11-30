@@ -12,9 +12,16 @@
       <div class="habit-card__header">
         <div class="habit-card__title-group">
           <h3 class="habit-card__title">{{ habit.name }}</h3>
-          <span v-if="habit.category" class="habit-card__category">
-            {{ getCategoryLabel(habit.category) }}
-          </span>
+          <div v-if="habit.category" class="habit-card__category-badge">
+            <img
+              :src="getCategoryEmojiSrc(habit.category)"
+              class="habit-card__category-icon"
+              alt=""
+            />
+            <span class="habit-card__category-label">
+              {{ getCategoryLabel(habit.category) }}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -62,7 +69,11 @@
       </div>
 
       <!-- Detailed Statistics with StreakDisplay -->
-      <div v-if="showDetailedStats" class="habit-card__detailed-stats" @click.stop>
+      <div
+        v-if="showDetailedStats"
+        class="habit-card__detailed-stats"
+        @click.stop
+      >
         <StreakDisplay
           :logs="logs"
           :base-color="habit.color"
@@ -118,6 +129,11 @@ import type {
 } from "../../../../../packages/shared-types/habit.ts";
 import DatePickerModal from "@/components/dates/DatePickerModal.vue";
 import StreakDisplay from "@/components/analytics/StreakDisplay.vue";
+import HealthEmoji from "@/assets/emojis/category-health.svg";
+import LearningEmoji from "@/assets/emojis/category-learning.svg";
+import CreativityEmoji from "@/assets/emojis/category-creativity.svg";
+import PersonalGrowthEmoji from "@/assets/emojis/category-personal-growth.svg";
+import ProductivityEmoji from "@/assets/emojis/category-productivity.svg";
 
 const { t } = useI18n();
 
@@ -194,6 +210,25 @@ const getCategoryLabel = (category: string | undefined): string => {
 
   const categoryKey = `habitForm.category${category.charAt(0).toUpperCase() + category.slice(1)}`;
   return t(categoryKey);
+};
+
+const getCategoryEmojiSrc = (category: string | undefined): string => {
+  if (!category) return "";
+
+  switch (category.toLowerCase()) {
+    case "health":
+      return HealthEmoji;
+    case "creativity":
+      return CreativityEmoji;
+    case "learning":
+      return LearningEmoji;
+    case "personal":
+      return PersonalGrowthEmoji;
+    case "productivity":
+      return ProductivityEmoji;
+    default:
+      return ProductivityEmoji;
+  }
 };
 
 /**
@@ -277,15 +312,30 @@ const handleDelete = () => {
   color: var(--color-text-primary);
 }
 
-.habit-card__category {
-  font-size: 11px;
+.habit-card__title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.habit-card__category-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   background: var(--color-bg-secondary);
   color: var(--color-text-primary);
   padding: 2px 8px;
   border-radius: 12px;
+  font-size: 11px;
   white-space: nowrap;
 }
 
+.habit-card__category-icon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
 /* Статус (значок выполнения) */
 .habit-card__status {
   flex-shrink: 0;

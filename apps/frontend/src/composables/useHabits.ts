@@ -1,4 +1,4 @@
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, type ComputedRef } from "vue";
 import type {
   Habit,
   HabitLog,
@@ -7,16 +7,24 @@ import { habitStorageService as habitStorage } from "@/services/habitStorage";
 
 interface UseHabitsReturn {
   habits: ReturnType<typeof ref<Habit[]>>;
-  dailyHabits: ReturnType<typeof computed<Habit[]>>;
-  completionRate: ReturnType<typeof computed<number>>;
+  /*  dailyHabits: ComputedRef<Habit[]>;
+  completionRate: ComputedRef<number>;*/
   loading: ReturnType<typeof ref<boolean>>;
   error: ReturnType<typeof ref<string | null>>;
   addHabit: (habit: Omit<Habit, "id" | "createdAt">) => Promise<void>;
   deleteHabit: (habitId: string) => Promise<void>;
   updateHabit: (habit: Habit) => Promise<void>;
-  markHabitDate: (habitId: string, date: string, completed?: boolean) => Promise<void>;
+  markHabitDate: (
+    habitId: string,
+    date: string,
+    completed?: boolean,
+  ) => Promise<void>;
   markHabitsToday: (habitId: string, completed?: boolean) => Promise<void>;
-  markHabitWeekAgo: (habitId: string, daysAgo: number, completed?: boolean) => Promise<void>;
+  markHabitWeekAgo: (
+    habitId: string,
+    daysAgo: number,
+    completed?: boolean,
+  ) => Promise<void>;
   isCompletedOn: (habitId: string, date: string) => boolean;
   isCompletedToday: (habitId: string) => boolean;
   loadHabits: () => Promise<void>;
@@ -143,8 +151,8 @@ export function useHabits(): UseHabitsReturn {
 
   return {
     habits,
-    dailyHabits,
-    completionRate,
+    /*dailyHabits,
+    completionRate,*/
     loading,
     error,
     addHabit,
