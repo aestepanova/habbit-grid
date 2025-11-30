@@ -9,6 +9,9 @@ import { useI18n } from "vue-i18n";
 import StreakDisplay from "../components/analytics/StreakDisplay.vue";
 import { habitStorageService } from "../services/habitStorage";
 import type { Habit, HabitLog } from "../../../../packages/shared-types/habit.ts";
+import ActiveHabitsEmoji from "@/assets/emojis/Active Habits Emoji.svg";
+import CompletedMonthEmoji from "@/assets/emojis/Emoji Completed Month.svg";
+import CompletionRateEmoji from "@/assets/emojis/Emoji Completion Rate.svg";
 
 const { t } = useI18n();
 
@@ -135,7 +138,9 @@ onMounted(() => {
       <!-- Empty state when no logs exist -->
       <div v-else class="analytics-view__empty">
         <div class="empty-state">
-          <div class="empty-state__icon">📊</div>
+          <div class="empty-state__icon">
+            <img :src="CompletionRateEmoji" alt="No Data" />
+          </div>
           <h3 class="empty-state__title">{{ t("analytics.noData") }}</h3>
           <p class="empty-state__description">
             {{ t("analytics.noDataDescription") }}
@@ -146,7 +151,9 @@ onMounted(() => {
       <!-- Additional statistics cards -->
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-card__icon">🎯</div>
+          <div class="stat-card__icon">
+            <img :src="ActiveHabitsEmoji" alt="Total Habits" />
+          </div>
           <div class="stat-card__content">
             <p class="stat-card__label">{{ t("analytics.stats.totalHabits") }}</p>
             <p class="stat-card__value">{{ habits.length }}</p>
@@ -154,7 +161,9 @@ onMounted(() => {
         </div>
 
         <div class="stat-card">
-          <div class="stat-card__icon">✅</div>
+          <div class="stat-card__icon">
+            <img :src="CompletedMonthEmoji" alt="Total Completions" />
+          </div>
           <div class="stat-card__content">
             <p class="stat-card__label">{{ t("analytics.stats.totalLogs") }}</p>
             <p class="stat-card__value">{{ filteredLogs.filter(log => log.completed).length }}</p>
@@ -162,7 +171,9 @@ onMounted(() => {
         </div>
 
         <div class="stat-card">
-          <div class="stat-card__icon">📈</div>
+          <div class="stat-card__icon">
+            <img :src="CompletionRateEmoji" alt="Completion Rate" />
+          </div>
           <div class="stat-card__content">
             <p class="stat-card__label">{{ t("analytics.stats.completionRate") }}</p>
             <p class="stat-card__value">
@@ -295,6 +306,19 @@ onMounted(() => {
 .empty-state__icon {
   font-size: 64px;
   margin-bottom: 16px;
+  width: 80px;
+  height: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 
 .empty-state__title {
@@ -338,6 +362,17 @@ onMounted(() => {
 .stat-card__icon {
   font-size: 32px;
   flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 
 .stat-card__content {

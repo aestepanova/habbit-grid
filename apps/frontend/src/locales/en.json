@@ -182,6 +182,13 @@
       "completionRate": "Completion rate"
     }
   },
+  "table": {
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "today": "Today",
+    "habits": "Habits",
+    "noHabits": "No habits to display"
+  },
   "footer": {
     "tagline": "Simple and powerful habit tracking tool",
     "navigation": {

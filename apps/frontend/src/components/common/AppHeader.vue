@@ -39,7 +39,9 @@ const navigateTo = (path: string) => {
 
       <!-- Desktop Navigation -->
       <nav class="app-header__nav app-header__nav--desktop">
-        <a href="/" class="app-header__nav-link">{{ t("nav.habits") }}</a>
+        <a href="/habitsTable" class="app-header__nav-link">{{
+          t("nav.habits")
+        }}</a>
         <a href="/analytics" class="app-header__nav-link">{{
           t("nav.analytics")
         }}</a>
@@ -75,7 +77,10 @@ const navigateTo = (path: string) => {
       class="app-header__nav app-header__nav--mobile"
       @click="closeMobileMenu"
     >
-      <a href="/" class="app-header__nav-link app-header__nav-link--mobile">
+      <a
+        href="/habitsTable"
+        class="app-header__nav-link app-header__nav-link--mobile"
+      >
         {{ t("nav.habits") }}
       </a>
       <a

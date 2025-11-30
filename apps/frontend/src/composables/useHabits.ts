@@ -5,7 +5,26 @@ import type {
 } from "../../../../packages/shared-types/habit.ts";
 import { habitStorageService as habitStorage } from "@/services/habitStorage";
 
-export function useHabits() {
+interface UseHabitsReturn {
+  habits: ReturnType<typeof ref<Habit[]>>;
+  dailyHabits: ReturnType<typeof computed<Habit[]>>;
+  completionRate: ReturnType<typeof computed<number>>;
+  loading: ReturnType<typeof ref<boolean>>;
+  error: ReturnType<typeof ref<string | null>>;
+  addHabit: (habit: Omit<Habit, "id" | "createdAt">) => Promise<void>;
+  deleteHabit: (habitId: string) => Promise<void>;
+  updateHabit: (habit: Habit) => Promise<void>;
+  markHabitDate: (habitId: string, date: string, completed?: boolean) => Promise<void>;
+  markHabitsToday: (habitId: string, completed?: boolean) => Promise<void>;
+  markHabitWeekAgo: (habitId: string, daysAgo: number, completed?: boolean) => Promise<void>;
+  isCompletedOn: (habitId: string, date: string) => boolean;
+  isCompletedToday: (habitId: string) => boolean;
+  loadHabits: () => Promise<void>;
+  reloadHabits: () => Promise<void>;
+  onMounted: typeof onMounted;
+}
+
+export function useHabits(): UseHabitsReturn {
   const habits = ref<Habit[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);

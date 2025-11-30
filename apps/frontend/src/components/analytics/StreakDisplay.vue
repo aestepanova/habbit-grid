@@ -88,7 +88,7 @@
             'activity-cells--week': selectedPeriod === 7,
             'activity-cells--month': selectedPeriod === 30,
             'activity-cells--half-year': selectedPeriod === 180,
-            'activity-cells--year': selectedPeriod === 365
+            'activity-cells--year': selectedPeriod === 365,
           }"
         >
           <div
@@ -97,7 +97,7 @@
             :class="[
               'activity-cell',
               `activity-level-${day.level}`,
-              { 'activity-cell--clickable': habitId }
+              { 'activity-cell--clickable': habitId },
             ]"
             :style="getCellStyle(day.level)"
             :title="getCellTitle(day)"
@@ -399,7 +399,10 @@ const getCellTitle = (day: ActivityDay) => {
 
   // Add click hint if habitId is provided (single habit view)
   if (props.habitId) {
-    const action = day.count === 0 ? t("datePicker.markCompleted") : t("datePicker.markIncomplete");
+    const action =
+      day.count === 0
+        ? t("datePicker.markCompleted")
+        : t("datePicker.markIncomplete");
     baseText += `\n${action}`;
   }
 
@@ -686,7 +689,7 @@ const handleCellClick = (day: ActivityDay, event: MouseEvent) => {
   min-width: 8px;
 
   &:hover {
-    transform: scale(1.2);
+    transform: scale(0.95);
     z-index: 10;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
@@ -791,7 +794,8 @@ const handleCellClick = (day: ActivityDay, event: MouseEvent) => {
     padding-left: 24px;
   }
 
-  .streak-display__grid-container:has(.activity-cells--half-year) .month-labels {
+  .streak-display__grid-container:has(.activity-cells--half-year)
+    .month-labels {
     grid-auto-columns: minmax(8px, 1fr);
     gap: 2px;
     padding-left: 24px;

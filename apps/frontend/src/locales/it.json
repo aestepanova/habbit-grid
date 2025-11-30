@@ -182,6 +182,13 @@
       "completionRate": "Tasso di completamento"
     }
   },
+  "table": {
+    "previousMonth": "Mese precedente",
+    "nextMonth": "Mese successivo",
+    "today": "Oggi",
+    "habits": "Abitudini",
+    "noHabits": "Nessuna abitudine da visualizzare"
+  },
   "footer": {
     "tagline": "Strumento semplice e potente per tracciare le abitudini",
     "navigation": {

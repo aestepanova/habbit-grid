@@ -24,6 +24,11 @@ const router = createRouter({
       component: () => import("@/views/AnalyticsView.vue"),
     },
     {
+      path: "/habitsTable",
+      name: "habitsTable",
+      component: () => import("@/views/HabitsTableView.vue"),
+    },
+    {
       path: "/themePlay",
       name: "themePlay",
       component: () => import("@/views/ThemePlayView.vue"),
