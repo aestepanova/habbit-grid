@@ -8,6 +8,7 @@ interface Props {
   value: number | string;
   unit?: string;
   icon?: string;
+  iconSrc?: string; // Path to custom emoji image
   subtitle?: string;
   trend?: number;
   variant?: "primary" | "success" | "warning" | "danger";
@@ -20,6 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
   type: "count",
   unit: "",
   icon: "",
+  iconSrc: "",
   subtitle: "",
   trend: undefined,
   variant: "primary",
@@ -94,11 +96,12 @@ const cardPadding = computed(() => {
       <!-- Header с иконкой и названием -->
       <div class="stats-card__header">
         <div
-          v-if="icon"
+          v-if="icon || iconSrc"
           class="stats-card__icon"
           :style="{ color: colorVariant }"
         >
-          {{ icon }}
+          <img v-if="iconSrc" :src="iconSrc" :alt="title" class="stats-card__icon-img" />
+          <span v-else>{{ icon }}</span>
         </div>
         <h3 class="stats-card__title">{{ title }}</h3>
       </div>
@@ -209,6 +212,14 @@ const cardPadding = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.stats-card__icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .stats-card__title {

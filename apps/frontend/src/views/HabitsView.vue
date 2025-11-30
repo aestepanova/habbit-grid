@@ -24,27 +24,27 @@
         <StatsCard
           :title="t('stats.activeHabits')"
           :value="habits.length"
-          icon="📚"
+          icon-src="/src/assets/emojis/Active Habits Emoji.svg"
           variant="primary"
         />
         <StatsCard
           :title="t('stats.completedThisMonth')"
           :value="totalCompleted"
-          icon="✓"
+          icon-src="/src/assets/emojis/Emoji Completed Month.svg"
           variant="success"
         />
         <StatsCard
           :title="t('stats.bestStreak')"
           :value="bestStreak"
-          unit="дней"
-          icon="🔥"
+          :unit="t('streakDisplay.days.other')"
+          icon-src="/src/assets/emojis/Best Streak Emoji.svg"
           variant="warning"
         />
         <StatsCard
           :title="t('stats.completionRate')"
           :value="completionPercentage"
           unit="%"
-          icon="📊"
+          icon-src="/src/assets/emojis/Emoji Completion Rate.svg"
           variant="primary"
         />
       </div>
@@ -621,6 +621,13 @@ const handleReloadHabits = () => {
   color: var(--color-text-white);
   margin-bottom: 40px;
   border-radius: var(--radius-xl);
+}
+
+.cta-section:hover {
+  /* Перекрываем любые возможные hover-эффекты */
+  transform: none !important;
+  transition: none !important;
+  cursor: default; /* или auto, если не нужно менять курсор */
 }
 
 .cta-section h2 {

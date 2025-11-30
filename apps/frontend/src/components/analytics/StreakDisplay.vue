@@ -20,6 +20,12 @@
       </div>
     </div>
 
+    <!-- Interactive mode hint -->
+    <div v-if="habitId" class="streak-display__hint">
+      <span class="hint-icon">👆</span>
+      <span class="hint-text">{{ t("datePicker.selectDate") }}</span>
+    </div>
+
     <!-- Statistics legend with information -->
     <div class="streak-display__info">
       <div class="info-item">
@@ -88,10 +94,14 @@
           <div
             v-for="(day, index) in activityData"
             :key="index"
-            :class="['activity-cell', `activity-level-${day.level}`]"
+            :class="[
+              'activity-cell',
+              `activity-level-${day.level}`,
+              { 'activity-cell--clickable': habitId }
+            ]"
             :style="getCellStyle(day.level)"
             :title="getCellTitle(day)"
-            @click="$emit('day-click', day)"
+            @click="handleCellClick(day, $event)"
           >
             <span v-if="day.streak > 1" class="streak-indicator">{{
               day.streak
@@ -133,7 +143,7 @@ const { t, locale } = useI18n();
 interface ActivityDay {
   date: string; // ISO date format (YYYY-MM-DD)
   count: number; // Number of habits completed on this day
-  level: number; // Intensity level (0-4) for color gradient
+  level: number; // Intensity level (0-4) for color gradient (based on streak for single habit, count for all habits)
   streak: number; // Current streak count at this day
   dayOfWeek: number; // Day of week (0 = Sunday, 6 = Saturday)
 }
@@ -145,6 +155,7 @@ interface Props {
   logs?: HabitLog[]; // Array of all habit completion logs
   title?: string; // Component title (optional, uses i18n by default)
   baseColor?: string; // Base color for gradient (hex format, e.g., #10b981)
+  habitId?: string; // Habit ID for single habit view (enables date marking)
 }
 
 // Default prop values
@@ -152,13 +163,15 @@ const props = withDefaults(defineProps<Props>(), {
   logs: () => [],
   title: "",
   baseColor: "#10b981", // Default green color
+  habitId: undefined,
 });
 
 /**
  * Component events
  */
-defineEmits<{
+const emit = defineEmits<{
   "day-click": [day: ActivityDay]; // Triggered when clicking on a day cell
+  "mark-date": [habitId: string, date: string, completed: boolean]; // Triggered when toggling date completion
 }>();
 
 /**
@@ -197,6 +210,9 @@ const activityData = computed(() => {
   // Find max count for normalization
   const maxCount = Math.max(...Array.from(logsByDate.values()), 1);
 
+  // Check if this is a single habit view (habitId is provided)
+  const isSingleHabit = !!props.habitId;
+
   // Create data for each day
   let currentStreak = 0;
   for (let i = 0; i < selectedPeriod.value; i++) {
@@ -208,20 +224,34 @@ const activityData = computed(() => {
       count = logsByDate.get(dateStr) || 0;
     }
 
-    // Calculate intensity level (0-4)
-    // Level determines the color saturation:
-    // 0: no activity, 1: 1-24%, 2: 25-49%, 3: 50-74%, 4: 75-100%
-    let level = 0;
+    // Update streak counter
     if (count > 0) {
-      const normalized = count / maxCount;
-      if (normalized >= 0.75) level = 4;
-      else if (normalized >= 0.5) level = 3;
-      else if (normalized >= 0.25) level = 2;
-      else level = 1;
-
       currentStreak++;
     } else {
       currentStreak = 0;
+    }
+
+    // Calculate intensity level (0-4)
+    let level = 0;
+    if (count > 0) {
+      if (isSingleHabit) {
+        // For single habit: use streak to determine intensity
+        // Level based on current streak length:
+        // 1: streak 1, 2: streak 2-3, 3: streak 4-6, 4: streak 7+
+        if (currentStreak >= 7) level = 4;
+        else if (currentStreak >= 4) level = 3;
+        else if (currentStreak >= 2) level = 2;
+        else level = 1;
+      } else {
+        // For all habits: use count normalization
+        // Level determines the color saturation:
+        // 0: no activity, 1: 1-24%, 2: 25-49%, 3: 50-74%, 4: 75-100%
+        const normalized = count / maxCount;
+        if (normalized >= 0.75) level = 4;
+        else if (normalized >= 0.5) level = 3;
+        else if (normalized >= 0.25) level = 2;
+        else level = 1;
+      }
     }
 
     days.push({
@@ -357,14 +387,23 @@ const getCellTitle = (day: ActivityDay) => {
     year: "numeric",
   });
 
+  let baseText;
   if (day.count === 0) {
-    return `${dateStr}: ${t("streakDisplay.tooltip.noActivity")}`;
+    baseText = `${dateStr}: ${t("streakDisplay.tooltip.noActivity")}`;
+  } else {
+    const completionText = t(
+      `streakDisplay.tooltip.completions.${getDeclension(day.count)}`,
+    );
+    baseText = `${dateStr}: ${day.count} ${completionText}`;
   }
 
-  const completionText = t(
-    `streakDisplay.tooltip.completions.${getDeclension(day.count)}`,
-  );
-  return `${dateStr}: ${day.count} ${completionText}`;
+  // Add click hint if habitId is provided (single habit view)
+  if (props.habitId) {
+    const action = day.count === 0 ? t("datePicker.markCompleted") : t("datePicker.markIncomplete");
+    baseText += `\n${action}`;
+  }
+
+  return baseText;
 };
 
 /**
@@ -392,6 +431,28 @@ const getDeclension = (count: number): string => {
 
   // For English and other locales (default)
   return count === 1 ? "one" : "other";
+};
+
+/**
+ * Function: Handle cell click
+ * When habitId is provided (single habit view), toggles completion for that date
+ * Otherwise, just emits the day-click event for information display
+ * @param day - ActivityDay object containing date and completion info
+ * @param event - Mouse event (used to prevent event bubbling)
+ */
+const handleCellClick = (day: ActivityDay, event: MouseEvent) => {
+  // Prevent event bubbling to avoid closing parent containers
+  event.stopPropagation();
+
+  // Always emit day-click event
+  emit("day-click", day);
+
+  // If habitId is provided, toggle completion for this date
+  if (props.habitId) {
+    // Toggle: if count > 0, mark as incomplete, otherwise mark as complete
+    const newCompletionState = day.count === 0;
+    emit("mark-date", props.habitId, day.date, newCompletionState);
+  }
 };
 </script>
 
@@ -452,6 +513,40 @@ const getDeclension = (count: number): string => {
       background: var(--color-primary);
       color: white;
     }
+  }
+}
+
+/* Interactive mode hint */
+.streak-display__hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.hint-icon {
+  font-size: 16px;
+}
+
+.hint-text {
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -594,6 +689,21 @@ const getDeclension = (count: number): string => {
     transform: scale(1.2);
     z-index: 10;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Enhanced visual feedback when cell is clickable for marking dates */
+  &--clickable {
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.3);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+      filter: brightness(1.1);
+    }
+
+    &:active {
+      transform: scale(1.15);
+    }
   }
 }
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Custom Emoji: Completed This Month (Галочка с календарем) -->
+  <!-- Used for: "Выполнено за месяц - 2" -->
+  
+  <defs>
+    <linearGradient id="calendarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    
+    <style>
+      @keyframes checkPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+      
+      .emoji-pulse {
+        animation: checkPulse 2s ease-in-out infinite;
+        transform-origin: 32px 32px;
+      }
+    </style>
+  </defs>
+
+  <!-- Calendar grid background -->
+  <rect x="10" y="12" width="44" height="40" rx="3" fill="#f0ebfa" stroke="#e8e4f0" stroke-width="1.5"/>
+  
+  <!-- Calendar header -->
+  <rect x="10" y="12" width="44" height="8" rx="3 3 0 0" fill="url(#calendarGradient)"/>
+  
+  <!-- Calendar days grid (2x3) -->
+  <g stroke="#e8e4f0" stroke-width="1">
+    <!-- Day cells -->
+    <line x1="26" y1="20" x2="26" y2="44"/>
+    <line x1="42" y1="20" x2="42" y2="44"/>
+    <line x1="10" y1="28" x2="54" y2="28"/>
+    <line x1="10" y1="36" x2="54" y2="36"/>
+  </g>
+
+  <!-- Filled day indicators (green circles) -->
+  <g class="emoji-pulse" fill="#10B981">
+    <!-- Day 1 -->
+    <circle cx="18" cy="24" r="1.8"/>
+    <!-- Day 2 -->
+    <circle cx="34" cy="24" r="1.8"/>
+    <!-- Day 3 -->
+    <circle cx="50" cy="24" r="1.8"/>
+    <!-- Day 4 -->
+    <circle cx="18" cy="32" r="1.8"/>
+    <!-- Day 5 -->
+    <circle cx="34" cy="32" r="1.8"/>
+    <!-- Day 6 -->
+    <circle cx="50" cy="32" r="1.8"/>
+  </g>
+
+  <!-- Large checkmark overlay (center) -->
+  <g stroke="#10B981" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 28 34 L 32 38 L 42 28" opacity="0.9"/>
+  </g>
+
+  <!-- Success glow effect -->
+  <circle cx="32" cy="32" r="18" fill="none" stroke="#10B981" stroke-width="1" opacity="0.3" stroke-dasharray="4 4"/>
+</svg>

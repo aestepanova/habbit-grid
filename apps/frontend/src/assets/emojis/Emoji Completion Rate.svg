@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Custom Emoji: Completion Rate (Прогресс-бар с процентом) -->
+  <!-- Used for: "Процент выполнения - 0%" -->
+  
+  <defs>
+    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b7fd4;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="fillGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#10B981;stop-opacity:1" />
+    </linearGradient>
+    
+    <style>
+      @keyframes fillExpand {
+        0% { width: 0%; }
+        100% { width: 0%; }
+      }
+      
+      .emoji-progress {
+        animation: fillExpand 2s ease-in-out infinite;
+      }
+      
+      @keyframes chartGrow {
+        0%, 100% { transform: scaleY(1); }
+        50% { transform: scaleY(1.05); }
+      }
+      
+      .chart-bar {
+        animation: chartGrow 2s ease-in-out infinite;
+        transform-origin: bottom;
+      }
+    </style>
+  </defs>
+
+  <!-- Background circle (gauge) -->
+  <circle cx="32" cy="28" r="16" fill="none" stroke="#e8e4f0" stroke-width="3"/>
+  
+  <!-- Progress ring (empty state - 0%) -->
+  <circle cx="32" cy="28" r="16" fill="none" stroke="url(#progressGradient)" 
+          stroke-width="3" stroke-dasharray="100.5 100.5" 
+          stroke-linecap="round" opacity="0.3"/>
+
+  <!-- Center percentage text -->
+  <text x="32" y="34" font-size="16" font-weight="700" fill="#5d4a9e" text-anchor="middle" font-family="'Montserrat', sans-serif">
+    0%
+  </text>
+
+  <!-- Mini chart bars below (visual representation of progress tracking) -->
+  <g class="chart-bar" transform="translate(0, 0)">
+    <!-- Bar 1 -->
+    <rect x="12" y="46" width="5" height="12" rx="1" fill="url(#progressGradient)" opacity="0.6"/>
+    
+    <!-- Bar 2 -->
+    <rect x="20" y="44" width="5" height="14" rx="1" fill="url(#progressGradient)" opacity="0.7"/>
+    
+    <!-- Bar 3 -->
+    <rect x="28" y="42" width="5" height="16" rx="1" fill="url(#progressGradient)" opacity="0.8"/>
+    
+    <!-- Bar 4 (current - highlighted) -->
+    <rect x="36" y="45" width="5" height="13" rx="1" fill="#10B981" opacity="0.9"/>
+    
+    <!-- Bar 5 -->
+    <rect x="44" y="46" width="5" height="12" rx="1" fill="url(#progressGradient)" opacity="0.6"/>
+  </g>
+
+  <!-- X-axis line -->
+  <line x1="10" y1="58" x2="54" y2="58" stroke="#e8e4f0" stroke-width="1.5"/>
+
+  <!-- Optimization indicator (стрелка вверх в углу) -->
+  <g opacity="0.7">
+    <circle cx="52" cy="12" r="6" fill="#f0ebfa" stroke="#6366f1" stroke-width="1.5"/>
+    <path d="M 52 15 L 52 10 M 50 12 L 52 10 L 54 12" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

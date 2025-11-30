@@ -542,8 +542,8 @@ label {
 /* ========== СКРОЛЛБАР ========== */
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 5px;
+  height: 1px;
 }
 
 ::-webkit-scrollbar-track {
@@ -591,4 +591,13 @@ label {
   .btn-primary, .btn-secondary, .btn-dark, .btn-gradient {
     display: none;
   }
+}
+
+/* Эмоджи */
+.stat-emoji {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #f0ebfa 0%, #e8e4f0 100%);
+  border-radius: 12px;
+  overflow: hidden;
 }

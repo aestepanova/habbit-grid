@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Custom Emoji: Active Habits (Книги с закладкой) -->
+  <!-- Used for: "Активных привычек - 3" -->
+  
+  <defs>
+    <linearGradient id="bookGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5d4a9e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:1" />
+    </linearGradient>
+    
+    <style>
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-3px); }
+      }
+      
+      .emoji-float {
+        animation: float 3s ease-in-out infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Book Stack (3 книги, символизирующие 3 активные привычки) -->
+  <g class="emoji-float">
+    <!-- Book 1 (bottom) - Dark purple -->
+    <rect x="12" y="30" width="40" height="28" rx="2" fill="#5d4a9e" stroke="#4a3a7a" stroke-width="1.5"/>
+    <line x1="12" y1="38" x2="52" y2="38" stroke="#4a3a7a" stroke-width="1"/>
+    
+    <!-- Book 2 (middle) - Medium purple -->
+    <rect x="10" y="22" width="40" height="28" rx="2" fill="#6366f1" stroke="#5d4a9e" stroke-width="1.5"/>
+    <line x1="10" y1="30" x2="50" y2="30" stroke="#5d4a9e" stroke-width="1"/>
+    
+    <!-- Book 3 (top) - Light purple -->
+    <rect x="8" y="14" width="40" height="28" rx="2" fill="#818cf8" stroke="#6366f1" stroke-width="1.5"/>
+    <line x1="8" y1="22" x2="48" y2="22" stroke="#6366f1" stroke-width="1"/>
+    
+    <!-- Bookmark ribbon (зеленая закладка) -->
+    <g>
+      <!-- Ribbon -->
+      <path d="M 45 14 Q 50 20 48 35" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
+      <!-- Ribbon bow/knot -->
+      <circle cx="48" cy="35" r="2.5" fill="#10B981"/>
+    </g>
+    
+    <!-- Sparkle effect (звездочка - знак прогресса) -->
+    <g>
+      <circle cx="52" cy="12" r="1.5" fill="#EC4899" opacity="0.8"/>
+      <circle cx="55" cy="15" r="1" fill="#EC4899" opacity="0.6"/>
+      <circle cx="53" cy="18" r="1.2" fill="#EC4899" opacity="0.7"/>
+    </g>
+  </g>
+</svg>

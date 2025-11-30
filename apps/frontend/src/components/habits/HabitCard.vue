@@ -62,11 +62,14 @@
       </div>
 
       <!-- Detailed Statistics with StreakDisplay -->
-      <div v-if="showDetailedStats" class="habit-card__detailed-stats">
+      <div v-if="showDetailedStats" class="habit-card__detailed-stats" @click.stop>
         <StreakDisplay
           :logs="logs"
           :base-color="habit.color"
           :title="t('habitCard.detailedActivity')"
+          :habit-id="habit.id"
+          @mark-date="handleMarkDate"
+          @day-click="handleDayClick"
         />
       </div>
     </div>
@@ -179,6 +182,13 @@ const handleMarkIncompleted = (habitId: string, date: string) => {
   emit("markDate", habitId, date, false);
 };
 
+const handleMarkDate = (habitId: string, date: string, completed: boolean) => {
+  emit("markDate", habitId, date, completed);
+};
+
+const handleDayClick = (): void => {
+  showDetailedStats.value = true;
+};
 const getCategoryLabel = (category: string | undefined): string => {
   if (!category) return "";
 
