@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Category Emoji: Learning (Обучение) -->
+  <!-- Graduation cap with stars -->
+  
+  <defs>
+    <linearGradient id="studyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563EB;stop-opacity:1" />
+    </linearGradient>
+    
+    <style>
+      @keyframes capFlip {
+        0% { transform: rotateX(0deg) rotateZ(-15deg); }
+        50% { transform: rotateX(10deg) rotateZ(-15deg); }
+        100% { transform: rotateX(0deg) rotateZ(-15deg); }
+      }
+      
+      .cap {
+        animation: capFlip 3s ease-in-out infinite;
+        transform-origin: 32px 28px;
+      }
+      
+      @keyframes starShine {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+      }
+      
+      .star {
+        animation: starShine 1.5s ease-in-out infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Graduation cap -->
+  <g class="cap">
+    <!-- Board/flat top -->
+    <rect x="14" y="22" width="36" height="4" rx="1" 
+          fill="url(#studyGradient)" stroke="#1E40AF" stroke-width="1"/>
+    
+    <!-- Tassel cord -->
+    <line x1="32" y1="26" x2="32" y2="40" stroke="#DC2626" stroke-width="2"/>
+    
+    <!-- Tassel ball -->
+    <circle cx="32" cy="44" r="3" fill="#DC2626"/>
+    
+    <!-- Left side flap -->
+    <path d="M 14 22 L 8 18 L 12 22 Z" 
+          fill="#1E40AF" stroke="#1E40AF" stroke-width="1"/>
+    
+    <!-- Right side flap -->
+    <path d="M 50 22 L 56 18 L 52 22 Z" 
+          fill="#1E40AF" stroke="#1E40AF" stroke-width="1"/>
+  </g>
+
+  <!-- Decorative stars -->
+  <g class="star" style="animation-delay: 0s;">
+    <!-- Star 1 (top-left) -->
+    <polygon points="18,14 20,18 24,18 21,21 22,25 18,22 14,25 15,21 12,18 16,18" 
+             fill="#FFD700" opacity="0.8"/>
+  </g>
+  
+  <g class="star" style="animation-delay: 0.5s;">
+    <!-- Star 2 (top-right) -->
+    <polygon points="46,14 48,18 52,18 49,21 50,25 46,22 42,25 43,21 40,18 44,18" 
+             fill="#FCD34D" opacity="0.8"/>
+  </g>
+  
+  <g class="star" style="animation-delay: 1s;">
+    <!-- Star 3 (bottom-right) -->
+    <polygon points="50,50 52,54 56,54 53,57 54,61 50,58 46,61 47,57 44,54 48,54" 
+             fill="#FBBF24" opacity="0.8"/>
+  </g>
+
+  <!-- Light rays (knowledge) -->
+  <g stroke="#3B82F6" stroke-width="1" opacity="0.3" stroke-linecap="round">
+    <line x1="20" y1="35" x2="12" y2="42" style="animation: fadeInOut 2s ease-in-out infinite; animation-delay: 0s;"/>
+    <line x1="44" y1="35" x2="52" y2="42" style="animation: fadeInOut 2s ease-in-out infinite; animation-delay: 0.5s;"/>
+  </g>
+
+  <style>
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.6; }
+    }
+  </style>
+</svg>
